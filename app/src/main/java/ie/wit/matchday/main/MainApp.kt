@@ -14,7 +14,7 @@ class MainApp: Application() {
         Timber.plant(Timber.DebugTree())
         i("Matchday started")
 
-        matches.add(MatchModel("Forth Celtic", true, 52.1231, 7.14222, 0.5f, "1-0"))
+        matches.add(MatchModel("Forth Celtic", "home", "1-0"))
     }
 
 
