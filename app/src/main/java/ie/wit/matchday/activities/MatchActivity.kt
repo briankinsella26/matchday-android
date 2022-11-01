@@ -43,7 +43,7 @@ class MatchActivity : AppCompatActivity() {
             isUpdate = true
             match = intent.extras?.getParcelable("match_edit")!!
             binding.matchOpponent.setText(match.opponent)
-            binding.radioLocation.check(radioButtonIndex)
+            binding.radioGroup.check(radioButtonIndex)
             binding.btnAdd.text = getString(R.string.button_saveMatch)
 
         }
@@ -58,24 +58,17 @@ class MatchActivity : AppCompatActivity() {
                 Snackbar.make(
                     it,
                     getString(R.string.opponent_validation_message),
-                    Snackbar.LENGTH_LONG
-                )
-                    .show()
-            } else if (match.homeOrAway.isEmpty()) {
-                Snackbar.make(
-                    it,
-                    getString(R.string.homeOrAway_validation_message),
-                    Snackbar.LENGTH_LONG
-                )
+                    Snackbar.LENGTH_SHORT
+                ).show()
             } else {
                 if ( isUpdate ) {
                     app.matches.update(match.copy())
                 } else {
                     app.matches.create(match.copy())
                 }
+                setResult(RESULT_OK)
+                finish()
             }
-            setResult(RESULT_OK)
-            finish()
         }
     }
 
@@ -105,7 +98,7 @@ class MatchActivity : AppCompatActivity() {
             {}
     }
 
-    private fun homeOrAway(isAway: Boolean = false) : String {
+    private fun homeOrAway(isAway: Boolean) : String {
         return if (isAway) {
             "Away"
         } else {
