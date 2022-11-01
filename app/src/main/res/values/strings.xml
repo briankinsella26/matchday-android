@@ -2,4 +2,11 @@
     <string name="app_name">Matchday</string>
     <string name="menu_addMatch">Add Match</string>
     <string name="hint_matchOpponent">Opponent team</string>
+    <string name="button_addMatch">Add Match</string>
+    <string name="hint_result">Result</string>
+    <string name="awayGame">Away Game</string>
+    <string name="homeGame">Home Game</string>
+    <string name="menu_matches">Matches</string>
+    <string name="menu_cancel">Cancel</string>
+    <string name="menu_delete">Delete</string>
 </resources>
