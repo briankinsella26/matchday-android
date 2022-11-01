@@ -1,7 +1,8 @@
-package ie.wit.matchday
+package ie.wit.matchday.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import ie.wit.matchday.R
 import timber.log.Timber
 import timber.log.Timber.i
 
