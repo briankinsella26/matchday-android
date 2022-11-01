@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Matchday</string>
+    <string name="menu_addMatch">Add Match</string>
+    <string name="hint_matchOpponent">Opponent team</string>
 </resources>
