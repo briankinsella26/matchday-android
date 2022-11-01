@@ -71,10 +71,11 @@
                     android:textSize="14sp" />
 
                 <RadioGroup
+                    android:id="@+id/radioLocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                    
+
 
                     <RadioButton
                         android:id="@+id/awayGame"

@@ -6,7 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import ie.wit.matchday.databinding.CardMatchBinding
 import ie.wit.matchday.models.MatchModel
 
-class MatchAdapter constructor(private var matches: List<MatchModel>) :
+interface MatchListener {
+    fun onMatchClick(match: MatchModel)
+}
+
+class MatchAdapter constructor(private var matches: List<MatchModel>, private val listener: MatchListener) :
     RecyclerView.Adapter<MatchAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -18,7 +22,7 @@ class MatchAdapter constructor(private var matches: List<MatchModel>) :
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val match = matches[holder.adapterPosition]
-        holder.bind(match)
+        holder.bind(match, listener)
     }
 
     override fun getItemCount(): Int = matches.size
@@ -26,10 +30,11 @@ class MatchAdapter constructor(private var matches: List<MatchModel>) :
     class MainHolder(private val binding : CardMatchBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(match: MatchModel) {
+        fun bind(match: MatchModel, listener: MatchListener) {
             binding.matchOpponent.text = match.opponent
             binding.result.text = match.result
             binding.homeAway.text = match.homeOrAway
+            binding.root.setOnClickListener { listener.onMatchClick(match)}
         }
     }
 }

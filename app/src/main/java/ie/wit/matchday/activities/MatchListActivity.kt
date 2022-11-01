@@ -13,12 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ie.wit.matchday.R
 import ie.wit.matchday.adapters.MatchAdapter
+import ie.wit.matchday.adapters.MatchListener
 import ie.wit.matchday.databinding.ActivityMatchListBinding
 import ie.wit.matchday.databinding.CardMatchBinding
 import ie.wit.matchday.main.MainApp
 import ie.wit.matchday.models.MatchModel
 
-class MatchListActivity : AppCompatActivity() {
+class MatchListActivity : AppCompatActivity(), MatchListener {
 
     lateinit var app: MainApp
     private lateinit var binding: ActivityMatchListBinding
@@ -35,8 +36,7 @@ class MatchListActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = MatchAdapter(app.matches)
-
+        loadMatches()
         registerRefreshCallback()
 
 
@@ -61,9 +61,26 @@ class MatchListActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onMatchClick(match: MatchModel) {
+        val launcherIntent = Intent(this, MatchActivity::class.java)
+        launcherIntent.putExtra("match_edit", match)
+        refreshIntentLauncher.launch(launcherIntent)
+    }
+
     private fun registerRefreshCallback() {
         refreshIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            {}
+            {
+                loadMatches()
+            }
+    }
+
+    private fun loadMatches() {
+        showMatches(app.matches.findAll())
+    }
+
+    fun showMatches (matches: List<MatchModel>) {
+        binding.recyclerView.adapter = MatchAdapter(matches, this)
+        binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 }
