@@ -44,23 +44,22 @@
                     android:id="@+id/matchOpponent"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_margin="8dp"
+                    android:layout_margin="16dp"
                     android:autofillHints="no"
                     android:hint="@string/hint_matchOpponent"
                     android:inputType="text"
                     android:maxLength="25"
                     android:maxLines="1"
                     android:padding="8dp"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="14sp" />
-
 
 
                 <EditText
                     android:id="@+id/result"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_margin="16dp"
                     android:autofillHints="no"
                     android:hint="@string/hint_result"
                     android:inputType="text"
@@ -76,35 +75,104 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
+                    <RadioButton
+                        android:id="@+id/homeGame"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:buttonTint="@color/colorAccent"
+                        android:checked="true"
+                        android:text="@string/homeGame" />
 
                     <RadioButton
                         android:id="@+id/awayGame"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/awayGame"
-                        android:layout_marginLeft="30dp"/>
-
-                    <RadioButton
-                        android:id="@+id/homeGame"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/homeGame"
                         android:layout_marginLeft="80dp"
-                        />
+                        android:buttonTint="@color/colorAccent"
+                        android:text="@string/awayGame" />
+
                 </RadioGroup>
+
+                <LinearLayout
+                    android:id="@+id/dateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true">
+
+                    <TextView
+                        android:id="@+id/dateText"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="16dp"
+                        android:hint="@string/date_text"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:stateListAnimator="@null"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/date"
+                        style="@style/Widget.Material3.Button.ElevatedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="37dp"
+                        android:layout_gravity="center"
+                        android:background="@color/colorPrimaryDark"
+                        android:enabled="false"
+                        android:hint="@string/hint_date"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/timeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true">
+
+                    <TextView
+                        android:id="@+id/timeText"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="16dp"
+                        android:hint="@string/time_text"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:stateListAnimator="@null"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/time"
+                        style="@style/Widget.Material3.Button.ElevatedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="37dp"
+                        android:layout_gravity="center"
+                        android:background="@color/colorPrimaryDark"
+                        android:enabled="false"
+                        android:hint="@string/hint_date"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/btnAdd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:background="@color/colorAccent"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:stateListAnimator="@null"
                     android:text="@string/button_addMatch"
-                    android:textColor="@color/design_default_color_primary_dark"
-                    android:textSize="16sp" />
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:background="@color/colorPrimary"/>
 
             </LinearLayout>
         </ScrollView>

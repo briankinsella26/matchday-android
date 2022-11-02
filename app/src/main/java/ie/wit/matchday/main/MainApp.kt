@@ -1,6 +1,7 @@
 package ie.wit.matchday.main
 
 import android.app.Application
+import ie.wit.matchday.models.MatchJSONStore
 import ie.wit.matchday.models.MatchMemStore
 import ie.wit.matchday.models.MatchModel
 import ie.wit.matchday.models.MatchStore
@@ -14,7 +15,7 @@ class MainApp: Application() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        matches = MatchMemStore()
+        matches = MatchJSONStore(applicationContext)
         i("Matchday started")
     }
 
