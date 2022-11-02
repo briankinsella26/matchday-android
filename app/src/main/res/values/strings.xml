@@ -9,7 +9,7 @@
     <string name="menu_matches">Matches</string>
     <string name="menu_cancel">Cancel</string>
     <string name="menu_delete">Delete</string>
-    <string name="opponent_validation_message">Delete</string>
-    <string name="homeOrAway_validation_message">Delete</string>
+    <string name="opponent_validation_message">Please enter an opponent name</string>
+    <string name="homeOrAway_validation_message">Please choose home or away game</string>
     <string name="button_saveMatch">Save Match</string>
 </resources>
