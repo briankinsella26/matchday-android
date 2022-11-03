@@ -10,8 +10,8 @@ import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import ie.wit.matchday.R
@@ -28,10 +28,7 @@ class MatchActivity : AppCompatActivity() {
     var match = MatchModel()
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
     lateinit var app: MainApp
-    var isUpdate: Boolean = false
-    var radioButtonIndex: Int = 0
-    var date: EditText? = null
-    var datePickerDialog: DatePickerDialog? = null
+    private var isUpdate: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +42,22 @@ class MatchActivity : AppCompatActivity() {
         registerRefreshCallback()
 
         i("Match Activity started...")
+
+        if (intent.hasExtra("match_edit")) {
+            match = intent.extras?.getParcelable("match_edit")!!
+            isUpdate = true
+            binding.matchOpponent.setText(match.opponent)
+            binding.result.setText(match.result)
+            binding.date.text = match.date
+            binding.time.text = match.time
+            if(match.homeOrAway == "Away") {
+                binding.awayGame.isChecked = true
+            } else {
+                binding.homeGame.isChecked = true
+            }
+            binding.btnAdd.text = getString(R.string.button_saveMatch)
+
+        }
 
         val datePicker: MaterialDatePicker<Long> = MaterialDatePicker
             .Builder
@@ -60,7 +73,9 @@ class MatchActivity : AppCompatActivity() {
         datePicker.addOnPositiveButtonClickListener {
             val simple = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val date = simple.format(it)
-            match.date = date.toString()
+            match.date = date
+            binding.date.text = match.date
+
         }
 
         val timePicker: MaterialTimePicker = MaterialTimePicker
@@ -74,28 +89,17 @@ class MatchActivity : AppCompatActivity() {
         }
 
         timePicker.addOnPositiveButtonClickListener {
-            match.time = "${timePicker.hour}:${timePicker.minute}"
+            val hour = String.format("%02d", timePicker.hour)
+            val minute = String.format("%02d", timePicker.minute)
+            match.time = "${hour}:${minute}"
+            binding.time.text = match.time
         }
 
-        if (intent.hasExtra("match_edit")) {
-            if(binding.homeGame.isChecked) {
-                radioButtonIndex = 1;
-            }
-            isUpdate = true
-            match = intent.extras?.getParcelable("match_edit")!!
-            binding.matchOpponent.setText(match.opponent)
-            binding.result.setText(match.result)
-//            binding.dateAndTime
-            binding.radioGroup.check(radioButtonIndex)
-            binding.btnAdd.text = getString(R.string.button_saveMatch)
-
-        }
 
 
         binding.btnAdd.setOnClickListener() {
             match.opponent = binding.matchOpponent.text.toString()
             match.result = binding.result.text.toString()
-//            match.dateAndTime = binding.dateAndTime.text.toString()
             match.homeOrAway = homeOrAway(binding.awayGame.isChecked)
 
             if (match.opponent.isEmpty()) {
@@ -117,7 +121,11 @@ class MatchActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_match, menu)
+        if (intent.hasExtra("match_edit")) {
+            menuInflater.inflate(R.menu.menu_match_edit, menu)
+        } else {
+            menuInflater.inflate(R.menu.menu_match, menu)
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -131,7 +139,6 @@ class MatchActivity : AppCompatActivity() {
                 finish()
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
 
