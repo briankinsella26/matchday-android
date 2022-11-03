@@ -17,7 +17,6 @@
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
             android:fitsSystemWindows="true"
             app:elevation="0dip"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -44,30 +43,26 @@
                     android:id="@+id/matchOpponent"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_margin="8dp"
+                    android:layout_margin="16dp"
                     android:autofillHints="no"
                     android:hint="@string/hint_matchOpponent"
                     android:inputType="text"
                     android:maxLength="25"
                     android:maxLines="1"
                     android:padding="8dp"
-                    android:textColor="@color/colorAccent"
                     android:textSize="14sp" />
-
-
 
                 <EditText
                     android:id="@+id/result"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_margin="16dp"
                     android:autofillHints="no"
                     android:hint="@string/hint_result"
                     android:inputType="text"
                     android:maxLength="25"
                     android:maxLines="1"
                     android:padding="8dp"
-                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="14sp" />
 
                 <RadioGroup
@@ -76,35 +71,92 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
+                    <RadioButton
+                        android:id="@+id/homeGame"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:checked="true"
+                        android:text="@string/homeGame" />
 
                     <RadioButton
                         android:id="@+id/awayGame"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/awayGame"
-                        android:layout_marginLeft="30dp"/>
-
-                    <RadioButton
-                        android:id="@+id/homeGame"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/homeGame"
                         android:layout_marginLeft="80dp"
-                        />
+                        android:text="@string/awayGame" />
+
                 </RadioGroup>
 
+                <LinearLayout
+                    android:id="@+id/dateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true">
+
+                    <TextView
+                        android:id="@+id/dateText"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="16dp"
+                        android:hint="@string/date_text"
+                        android:padding="8dp"
+                        android:stateListAnimator="@null"
+                        android:textSize="14sp" />
+
+                    <Button
+                        style="@style/Widget.Material3.Button.ElevatedButton"
+                        android:id="@+id/date"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hint_date"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/timeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true">
+
+                    <TextView
+                        android:id="@+id/timeText"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="16dp"
+                        android:hint="@string/time_text"
+                        android:padding="8dp"
+                        android:stateListAnimator="@null"
+                        android:textSize="14sp" />
+
+                    <Button
+                        style="@style/Widget.Material3.Button.ElevatedButton"
+                        android:id="@+id/time"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hint_time"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
                 <Button
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    app:backgroundTint="@color/design_default_color_primary"
                     android:id="@+id/btnAdd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:background="@color/colorAccent"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:stateListAnimator="@null"
+                    android:background="@color/design_default_color_primary_variant"
                     android:text="@string/button_addMatch"
-                    android:textColor="@color/design_default_color_primary_dark"
-                    android:textSize="16sp" />
+                    android:textColor="@color/white"
+                    android:textSize="16sp"/>
 
             </LinearLayout>
         </ScrollView>

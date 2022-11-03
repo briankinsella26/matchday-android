@@ -1,18 +1,26 @@
 package ie.wit.matchday.activities
 
+import android.app.DatePickerDialog
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.timepicker.MaterialTimePicker
 import ie.wit.matchday.R
 import ie.wit.matchday.databinding.ActivityMatchBinding
 import ie.wit.matchday.main.MainApp
 import ie.wit.matchday.models.MatchModel
 import timber.log.Timber.i
+import java.util.*
+
 
 class MatchActivity : AppCompatActivity() {
 
@@ -20,8 +28,7 @@ class MatchActivity : AppCompatActivity() {
     var match = MatchModel()
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
     lateinit var app: MainApp
-    var isUpdate: Boolean = false
-    var radioButtonIndex: Int = 0
+    private var isUpdate: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,16 +44,57 @@ class MatchActivity : AppCompatActivity() {
         i("Match Activity started...")
 
         if (intent.hasExtra("match_edit")) {
-            if(binding.homeGame.isChecked) {
-                radioButtonIndex = 1;
-            }
-            isUpdate = true
             match = intent.extras?.getParcelable("match_edit")!!
+            isUpdate = true
             binding.matchOpponent.setText(match.opponent)
-            binding.radioGroup.check(radioButtonIndex)
+            binding.result.setText(match.result)
+            binding.date.text = match.date
+            binding.time.text = match.time
+            if(match.homeOrAway == "Away") {
+                binding.awayGame.isChecked = true
+            } else {
+                binding.homeGame.isChecked = true
+            }
             binding.btnAdd.text = getString(R.string.button_saveMatch)
 
         }
+
+        val datePicker: MaterialDatePicker<Long> = MaterialDatePicker
+            .Builder
+            .datePicker()
+            .setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
+            .setTitleText("Select date...")
+            .build()
+
+        binding.date.setOnClickListener() {
+            datePicker.show(supportFragmentManager, "DATE_PICKER")
+        }
+
+        datePicker.addOnPositiveButtonClickListener {
+            val simple = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val date = simple.format(it)
+            match.date = date
+            binding.date.text = match.date
+
+        }
+
+        val timePicker: MaterialTimePicker = MaterialTimePicker
+            .Builder()
+            .setTitleText("Select time...")
+            .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
+            .build()
+
+        binding.time.setOnClickListener() {
+            timePicker.show(supportFragmentManager, "TIME_PICKER")
+        }
+
+        timePicker.addOnPositiveButtonClickListener {
+            val hour = String.format("%02d", timePicker.hour)
+            val minute = String.format("%02d", timePicker.minute)
+            match.time = "${hour}:${minute}"
+            binding.time.text = match.time
+        }
+
 
 
         binding.btnAdd.setOnClickListener() {
@@ -73,7 +121,11 @@ class MatchActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_match, menu)
+        if (intent.hasExtra("match_edit")) {
+            menuInflater.inflate(R.menu.menu_match_edit, menu)
+        } else {
+            menuInflater.inflate(R.menu.menu_match, menu)
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -84,11 +136,9 @@ class MatchActivity : AppCompatActivity() {
                 finish()
             }
             R.id.item_cancel -> {
-                val launcherIntent = Intent(this, HomepageActivity::class.java)
-                refreshIntentLauncher.launch(launcherIntent)
+                finish()
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
 
