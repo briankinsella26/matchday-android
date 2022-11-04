@@ -17,6 +17,7 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import ie.wit.matchday.R
 import ie.wit.matchday.databinding.ActivityMatchBinding
 import ie.wit.matchday.main.MainApp
+import ie.wit.matchday.models.Location
 import ie.wit.matchday.models.MatchModel
 import timber.log.Timber.i
 import java.util.*
@@ -27,8 +28,10 @@ class MatchActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMatchBinding
     var match = MatchModel()
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     lateinit var app: MainApp
     private var isUpdate: Boolean = false
+    var location = Location(52.245696, -7.139102, 15f)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +43,7 @@ class MatchActivity : AppCompatActivity() {
 
         app = application as MainApp
         registerRefreshCallback()
+        registerMapCallback()
 
         i("Match Activity started...")
 
@@ -95,8 +99,6 @@ class MatchActivity : AppCompatActivity() {
             binding.time.text = match.time
         }
 
-
-
         binding.btnAdd.setOnClickListener() {
             match.opponent = binding.matchOpponent.text.toString()
             match.result = binding.result.text.toString()
@@ -117,6 +119,18 @@ class MatchActivity : AppCompatActivity() {
                 setResult(RESULT_OK)
                 finish()
             }
+        }
+
+        binding.locationButton.setOnClickListener {
+            val location = Location(52.245696, -7.139102, 15f)
+            if (match.zoom != 0f) {
+                location.lat = match.lat
+                location.lng = match.lng
+                location.zoom = match.zoom
+            }
+            val launcherIntent = Intent(this, MapActivity::class.java)
+                .putExtra("location", location)
+            mapIntentLauncher.launch(launcherIntent)
         }
     }
 
@@ -146,6 +160,25 @@ class MatchActivity : AppCompatActivity() {
         refreshIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             {}
+    }
+
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when (result.resultCode) {
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            location = result.data!!.extras?.getParcelable("location")!!
+                            match.lat = location.lat
+                            match.lng = location.lng
+                            match.zoom = location.zoom
+                            binding.locationButton.text = getString(R.string.location_set)
+                        }
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 
     private fun homeOrAway(isAway: Boolean) : String {
