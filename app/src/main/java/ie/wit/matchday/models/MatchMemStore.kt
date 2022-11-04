@@ -29,9 +29,9 @@ class MatchMemStore: MatchStore {
             foundMatch.opponent = match.opponent
             foundMatch.homeOrAway = match.homeOrAway
             foundMatch.result = match.result
-//            foundMatch.lat = match.lat
-//            foundMatch.lng = match.lng
-//            foundMatch.zoom = match.zoom
+            foundMatch.lat = match.lat
+            foundMatch.lng = match.lng
+            foundMatch.zoom = match.zoom
             logAll()
         }
     }

@@ -53,9 +53,9 @@ class MatchJSONStore(private val context: Context): MatchStore {
             foundMatch.homeOrAway = match.homeOrAway
             foundMatch.date = match.date
             foundMatch.time = match.time
-//            foundMatch.lat = match.lat
-//            foundMatch.lng = match.lng
-//            foundMatch.zoom = match.zoom
+            foundMatch.lat = match.lat
+            foundMatch.lng = match.lng
+            foundMatch.zoom = match.zoom
             logAll()
             serialize()
         }

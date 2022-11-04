@@ -96,7 +96,7 @@
 
                     <TextView
                         android:id="@+id/dateText"
-                        android:layout_width="60dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_margin="16dp"
@@ -124,7 +124,7 @@
 
                     <TextView
                         android:id="@+id/timeText"
-                        android:layout_width="60dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_margin="16dp"
@@ -140,6 +140,33 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/hint_time"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/locationLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true">
+
+                    <TextView
+                        android:id="@+id/locationText"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="16dp"
+                        android:hint="@string/text_location"
+                        android:padding="8dp"
+                        android:stateListAnimator="@null"
+                        android:textSize="14sp" />
+
+                    <Button
+                        style="@style/Widget.Material3.Button.ElevatedButton"
+                        android:id="@+id/locationButton"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hint_location"
                         android:textSize="14sp"/>
                 </LinearLayout>
 

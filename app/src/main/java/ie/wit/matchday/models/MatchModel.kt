@@ -9,9 +9,9 @@ data class MatchModel(var id: Long = 0,
                       var homeOrAway: String = "",
                       var date: String = "",
                       var time: String = "",
-//                      var lat: Double = 0.0,
-//                      var lng: Double = 0.0,
-//                      var zoom: Float = 0f,
+                      var lat: Double = 0.0,
+                      var lng: Double = 0.0,
+                      var zoom: Float = 0f,
                       var result: String = "") : Parcelable
 
 @Parcelize
