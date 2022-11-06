@@ -3,10 +3,13 @@ package ie.wit.matchday.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.bumptech.glide.Glide
 import com.bumptech.glide.annotation.GlideModule
 import ie.wit.matchday.R
@@ -22,6 +25,14 @@ class HomepageActivity : AppCompatActivity() {
     lateinit var app : MainApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
+
+        //adding delay temporarily to showcase splashscreen
+        var keepSplashOnScreen = true
+        val delay = 1000L
+        splashScreen.setKeepVisibleCondition() { keepSplashOnScreen }
+        Handler(Looper.getMainLooper()).postDelayed({ keepSplashOnScreen = false }, delay)
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityHomepageBinding.inflate(layoutInflater)

@@ -10,6 +10,7 @@ import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.get
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
@@ -34,6 +35,7 @@ class MatchActivity : AppCompatActivity() {
     var location = Location(52.245696, -7.139102, 15f)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
 
         binding = ActivityMatchBinding.inflate(layoutInflater)
@@ -60,6 +62,7 @@ class MatchActivity : AppCompatActivity() {
                 binding.homeGame.isChecked = true
             }
             binding.btnAdd.text = getString(R.string.button_saveMatch)
+            binding.locationButton.text = getString(R.string.location_edit)
 
         }
 

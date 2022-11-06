@@ -3,19 +3,16 @@ package ie.wit.matchday.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import ie.wit.matchday.R
 import ie.wit.matchday.adapters.MatchAdapter
 import ie.wit.matchday.adapters.MatchListener
 import ie.wit.matchday.databinding.ActivityMatchListBinding
-import ie.wit.matchday.databinding.CardMatchBinding
 import ie.wit.matchday.main.MainApp
 import ie.wit.matchday.models.MatchModel
 
@@ -26,6 +23,7 @@ class MatchListActivity : AppCompatActivity(), MatchListener {
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivityMatchListBinding.inflate(layoutInflater)
         setContentView(binding.root)
