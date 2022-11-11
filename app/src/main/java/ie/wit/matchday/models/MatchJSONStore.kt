@@ -61,8 +61,8 @@ class MatchJSONStore(private val context: Context): MatchStore {
         }
     }
 
-    override fun delete(placemark: MatchModel) {
-        matches.remove(placemark)
+    override fun delete(match: MatchModel) {
+        matches.remove(match)
         serialize()
     }
 
