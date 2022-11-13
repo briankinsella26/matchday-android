@@ -24,7 +24,9 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:titleTextColor="@color/white" />
+                app:titleTextColor="@color/white"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                />
         </com.google.android.material.appbar.AppBarLayout>
 
         <ScrollView
@@ -170,8 +172,7 @@
                 </LinearLayout>
 
                 <Button
-                    style="@style/Widget.Material3.Button.TonalButton"
-                    app:backgroundTint="@color/design_default_color_primary"
+                    android:backgroundTint="?attr/colorPrimaryVariant"
                     android:id="@+id/btnAdd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -179,7 +180,6 @@
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:stateListAnimator="@null"
-                    android:background="@color/design_default_color_primary_variant"
                     android:text="@string/button_addMatch"
                     android:textColor="@color/white"
                     android:textSize="16sp"/>
