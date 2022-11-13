@@ -50,7 +50,7 @@ class MatchListActivity : AppCompatActivity(), MatchListener {
                 val launcherIntent = Intent(this, MatchActivity::class.java)
                 refreshIntentLauncher.launch(launcherIntent)
             }
-            R.id.item_cancel -> {
+            R.id.item_logout -> {
                 val launcherIntent = Intent(this, HomepageActivity::class.java)
                 refreshIntentLauncher.launch(launcherIntent)
             }
