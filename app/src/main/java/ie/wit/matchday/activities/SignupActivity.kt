@@ -49,9 +49,8 @@ class SignupActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, getString(R.string.signup_validation_message), Toast.LENGTH_SHORT).show()
                 Timber.i("signup failed")
             } else {
-                app.users.create(user.copy())
+                app.loggedInUser = app.users.create(user.copy())
                 val launcherIntent = Intent(this, MatchListActivity::class.java)
-                app.loggedInUser = user
                 refreshIntentLauncher.launch(launcherIntent)
             }
         }

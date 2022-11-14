@@ -8,6 +8,7 @@ import ie.wit.matchday.helpers.exists
 import ie.wit.matchday.helpers.read
 import ie.wit.matchday.helpers.write
 import timber.log.Timber
+import timber.log.Timber.i
 import java.lang.reflect.Type
 import java.util.*
 import kotlin.collections.ArrayList
@@ -39,10 +40,12 @@ class UserJSONStore(private val context: Context): UserStore {
     }
 
 
-    override fun create(user: UserModel) {
+    override fun create(user: UserModel): UserModel {
         user.id = generateRandomUserid().toString()
         users.add(user)
+        i("added user ${user}")
         serialize()
+        return user
     }
 
 
