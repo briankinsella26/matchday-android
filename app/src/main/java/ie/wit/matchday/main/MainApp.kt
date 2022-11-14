@@ -1,21 +1,22 @@
 package ie.wit.matchday.main
 
 import android.app.Application
-import ie.wit.matchday.models.MatchJSONStore
-import ie.wit.matchday.models.MatchMemStore
-import ie.wit.matchday.models.MatchModel
-import ie.wit.matchday.models.MatchStore
+import ie.wit.matchday.models.*
 import timber.log.Timber
 import timber.log.Timber.i
 
 class MainApp: Application() {
 
-    lateinit var matches: MatchStore
+    lateinit var matches: MatchJSONStore
+    lateinit var users: UserStore
+    lateinit var loggedInUser: UserModel
 
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         matches = MatchJSONStore(applicationContext)
+        users = UserJSONStore(applicationContext)
+        loggedInUser = UserModel()
         i("Matchday started")
     }
 

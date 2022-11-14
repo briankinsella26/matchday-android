@@ -7,13 +7,13 @@ import com.google.gson.reflect.TypeToken
 import ie.wit.matchday.helpers.exists
 import ie.wit.matchday.helpers.read
 import ie.wit.matchday.helpers.write
-
 import timber.log.Timber
 import java.lang.reflect.Type
 import java.util.*
 import kotlin.collections.ArrayList
 
 const val JSON_FILE_USERS = "users.json"
+
 val gsonBuilderUser: Gson = GsonBuilder().setPrettyPrinting()
     .registerTypeAdapter(Uri::class.java, UriParserUser())
     .create()
@@ -25,7 +25,7 @@ fun generateRandomUserid(): Long {
 
 class UserJSONStore(private val context: Context): UserStore {
 
-    var users = mutableListOf<UserModel>()
+    private var users = mutableListOf<UserModel>()
 
     init {
         if (exists(context, JSON_FILE_USERS)) {
@@ -38,8 +38,9 @@ class UserJSONStore(private val context: Context): UserStore {
         return users
     }
 
+
     override fun create(user: UserModel) {
-        user.id = generateRandomUserid()
+        user.id = generateRandomUserid().toString()
         users.add(user)
         serialize()
     }
@@ -65,11 +66,11 @@ class UserJSONStore(private val context: Context): UserStore {
 
     private fun serialize() {
         val jsonString = gsonBuilderUser.toJson(users, listTypeUser)
-        write(context, JSON_FILE, jsonString)
+        write(context, JSON_FILE_USERS, jsonString)
     }
 
     private fun deserialize() {
-        val jsonString = read(context, JSON_FILE)
+        val jsonString = read(context, JSON_FILE_USERS)
         users = gsonBuilderUser.fromJson(jsonString, listTypeUser)
     }
 

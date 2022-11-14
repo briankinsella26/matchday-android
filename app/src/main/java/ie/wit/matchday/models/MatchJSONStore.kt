@@ -38,6 +38,11 @@ class MatchJSONStore(private val context: Context): MatchStore {
         return matches
     }
 
+    override fun findMatchesByUser(user: UserModel): List<MatchModel> {
+        logAll()
+        return matches.filter { it.userId == user.id}
+    }
+
     override fun create(match: MatchModel) {
         match.id = generateRandomId()
         matches.add(match)

@@ -5,6 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class MatchModel(var id: Long = 0,
+                      var userId: String = "",
                       var opponent: String = "",
                       var homeOrAway: String = "",
                       var date: String = "",
