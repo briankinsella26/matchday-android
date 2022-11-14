@@ -106,6 +106,7 @@ class MatchActivity : AppCompatActivity() {
             match.opponent = binding.matchOpponent.text.toString()
             match.result = binding.result.text.toString()
             match.homeOrAway = homeOrAway(binding.awayGame.isChecked)
+            match.userId = app.loggedInUser.id
 
             if (match.opponent.isEmpty()) {
                 Snackbar.make(

@@ -15,6 +15,7 @@ import ie.wit.matchday.adapters.MatchListener
 import ie.wit.matchday.databinding.ActivityMatchListBinding
 import ie.wit.matchday.main.MainApp
 import ie.wit.matchday.models.MatchModel
+import ie.wit.matchday.models.UserModel
 
 class MatchListActivity : AppCompatActivity(), MatchListener {
 
@@ -37,7 +38,6 @@ class MatchListActivity : AppCompatActivity(), MatchListener {
         loadMatches()
         registerRefreshCallback()
 
-
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_match_list, menu)
@@ -51,7 +51,8 @@ class MatchListActivity : AppCompatActivity(), MatchListener {
                 refreshIntentLauncher.launch(launcherIntent)
             }
             R.id.item_logout -> {
-                val launcherIntent = Intent(this, HomepageActivity::class.java)
+                app.loggedInUser = UserModel()
+                val launcherIntent = Intent(this, LoginActivity::class.java)
                 refreshIntentLauncher.launch(launcherIntent)
             }
         }
@@ -74,10 +75,10 @@ class MatchListActivity : AppCompatActivity(), MatchListener {
     }
 
     private fun loadMatches() {
-        showMatches(app.matches.findAll())
+    showMatches(app.matches.findMatchesByUser(app.loggedInUser))
     }
 
-    fun showMatches (matches: List<MatchModel>) {
+    private fun showMatches (matches: List<MatchModel>) {
         binding.recyclerView.adapter = MatchAdapter(matches, this)
         binding.recyclerView.adapter?.notifyDataSetChanged()
     }

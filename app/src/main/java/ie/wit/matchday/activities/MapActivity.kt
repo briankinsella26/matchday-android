@@ -23,7 +23,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
     var location = Location()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
         location = intent.extras?.getParcelable<Location>("location")!!

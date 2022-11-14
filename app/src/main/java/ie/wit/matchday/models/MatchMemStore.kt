@@ -12,6 +12,7 @@ internal fun getId(): Long {
 class MatchMemStore: MatchStore {
 
     val matches = ArrayList<MatchModel>()
+    var users = mutableListOf<UserModel>()
 
     override fun findAll(): List<MatchModel> {
         return matches
@@ -34,6 +35,13 @@ class MatchMemStore: MatchStore {
             foundMatch.zoom = match.zoom
             logAll()
         }
+    }
+
+    override fun findMatchesByUser(user: UserModel): List<MatchModel> {
+        var foundUser: UserModel? = users.find { p -> p.id == user.id}
+        matches.filter { it.userId == foundUser?.id}
+        logAll()
+        return matches
     }
 
     override fun delete(match: MatchModel) {
