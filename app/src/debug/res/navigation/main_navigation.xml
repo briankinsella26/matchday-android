@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/matchesFragment">
+
+    <fragment
+        android:id="@+id/addMatchFragmentFragment"
+        android:name="ie.wit.matchday.ui.addMatch.AddMatchFragment"
+        android:label="@string/menu_addMatch"
+        tools:layout="@layout/fragment_add_match" >
+        <action
+            android:id="@+id/action_addMatchFragment_to_matchesFragment"
+            app:destination="@id/matchesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/matchesFragment"
+        android:name="ie.wit.matchday.ui.matches.MatchesFragment"
+        android:label="@string/menu_matches"
+        tools:layout="@layout/fragment_matches" >
+        <action
+            android:id="@+id/action_matchesFragment_to_addMatchFragment"
+            app:destination="@id/addMatchFragmentFragment"
+            app:popUpTo="@id/main_navigation"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_matchesFragment_to_matchDetailFragment"
+            app:destination="@id/matchDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="ie.wit.matchday.ui.about.AboutFragment"
+        android:label="@string/action_about"
+        tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/matchDetailFragment"
+        android:name="ie.wit.matchday.ui.detail.MatchDetailFragment"
+        android:label="@string/match_detail"
+        tools:layout="@layout/fragment_match_detail" >
+        <action
+            android:id="@+id/action_matchDetailFragment_to_matchesFragment"
+            app:destination="@id/matchesFragment" />
+        <argument
+            android:name="matchid"
+            app:argType="long" />
+    </fragment>
+</navigation>

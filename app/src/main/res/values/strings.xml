@@ -46,6 +46,21 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="menu_about">About</string>
+
+    <string name="nav_header_title">Matchday</string>
+    <string name="nav_header_subtitle">The number 1 coaching app</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="action_about">About Us</string>
+    <string name="match_detail">Match Details</string>
+    <string name="aboutus_title">We are a one man operation</string>
+    <string name="aboutus_message">This app is the best for coaches. Please tell your friends</string>
+
+    <string name="matches_not_found">Matches not found</string>
+    <string name="add_match_error">Error: Unable to add match</string>
+    <string name="match_details">Match Details</string>
+
 
     <string name="lorem_ipsum">
         Lorem ipsum

@@ -58,17 +58,17 @@ class SignupActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_match, menu)
+        menuInflater.inflate(R.menu.menu_add_match, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.item_cancel -> {
-                val launcherIntent = Intent(this, LoginActivity::class.java)
-                refreshIntentLauncher.launch(launcherIntent)
-            }
-        }
+//        when (item.itemId) {
+//            R.id.item_cancel -> {
+//                val launcherIntent = Intent(this, LoginActivity::class.java)
+//                refreshIntentLauncher.launch(launcherIntent)
+//            }
+//        }
         return super.onOptionsItemSelected(item)
     }
 
