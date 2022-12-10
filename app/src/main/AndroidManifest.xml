@@ -34,11 +34,9 @@
             android:name=".activities.MapActivity"
             android:exported="false"
             android:label="@string/title_activity_map" />
+
         <activity
             android:name=".activities.MatchListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.HomepageActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
