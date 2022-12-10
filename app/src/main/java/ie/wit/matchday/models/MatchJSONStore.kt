@@ -38,6 +38,10 @@ class MatchJSONStore(private val context: Context): MatchStore {
         return matches
     }
 
+    override fun findById(id: Long): MatchModel? {
+        TODO("Not yet implemented")
+    }
+
     override fun findMatchesByUser(user: UserModel): List<MatchModel> {
         logAll()
         return matches.filter { it.userId == user.id}

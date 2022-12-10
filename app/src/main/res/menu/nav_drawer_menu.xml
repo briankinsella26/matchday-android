@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/addMatchFragment"
+            android:icon="@drawable/football"
+            android:title="@string/menu_addMatch" />
+        <item
+            android:id="@+id/profileFragment"
+            android:icon="@drawable/usergreen3"
+            android:title="@string/menu_matches" />
+        <item
+            android:id="@+id/aboutFragment"
+            android:icon="@drawable/about"
+            android:title="@string/action_about" />
+    </group>
+</menu>
+

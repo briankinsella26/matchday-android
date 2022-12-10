@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Matchday" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Matchday" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryVariant">@color/green_dark</item>
@@ -13,6 +13,14 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:actionMenuTextColor">@color/white</item>
+
+<!--        <style name="Theme.Matchday.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
+<!--        <style name="Theme.Matchday.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
+
+<!--        <style name="Theme.Matchday.NoActionBar">-->
+<!--            <item name="windowActionBar">false</item>-->
+<!--            <item name="windowNoTitle">true</item>-->
+<!--        </style>-->
 
     </style>
 </resources>
