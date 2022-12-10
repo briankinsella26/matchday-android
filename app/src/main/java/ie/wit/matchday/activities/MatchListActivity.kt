@@ -8,7 +8,6 @@ import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.recyclerview.widget.LinearLayoutManager
 import ie.wit.matchday.R
 import ie.wit.matchday.adapters.MatchAdapter
 import ie.wit.matchday.adapters.MatchListener
@@ -16,6 +15,7 @@ import ie.wit.matchday.databinding.ActivityMatchListBinding
 import ie.wit.matchday.main.MainApp
 import ie.wit.matchday.models.MatchModel
 import ie.wit.matchday.models.UserModel
+import timber.log.Timber
 
 class MatchListActivity : AppCompatActivity(), MatchListener {
 
@@ -31,12 +31,16 @@ class MatchListActivity : AppCompatActivity(), MatchListener {
         binding.toolbar.title = title
         setSupportActionBar(binding.toolbar)
 
+        registerRefreshCallback()
         app = application as MainApp
 
-        val layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = layoutManager
-        loadMatches()
-        registerRefreshCallback()
+        if(app.loggedInUser.id.isEmpty()) {
+            Timber.i("No user logged in, redirect to login activity")
+            val launcherIntent = Intent(this, LoginActivity::class.java)
+            refreshIntentLauncher.launch(launcherIntent)
+        } else {
+            loadMatches()
+        }
 
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
