@@ -1,17 +1,14 @@
 package ie.wit.matchday.activities
 
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.get
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -56,11 +53,11 @@ class MatchActivity : AppCompatActivity() {
             binding.result.setText(match.result)
             binding.date.text = match.date
             binding.time.text = match.time
-            if(match.homeOrAway == "Away") {
-                binding.awayGame.isChecked = true
-            } else {
-                binding.homeGame.isChecked = true
-            }
+//            if(match.homeOrAway == "Away") {
+//                binding.awayGame.isChecked = true
+//            } else {
+//                binding.homeGame.isChecked = true
+//            }
             binding.btnAdd.text = getString(R.string.button_saveMatch)
             binding.locationButton.text = getString(R.string.location_edit)
 
@@ -105,7 +102,7 @@ class MatchActivity : AppCompatActivity() {
         binding.btnAdd.setOnClickListener() {
             match.opponent = binding.matchOpponent.text.toString()
             match.result = binding.result.text.toString()
-            match.homeOrAway = homeOrAway(binding.awayGame.isChecked)
+//            match.homeOrAway = homeOrAway(binding.awayGame.isChecked)
             match.userId = app.loggedInUser.id
 
             if (match.opponent.isEmpty()) {
@@ -139,24 +136,16 @@ class MatchActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        if (intent.hasExtra("match_edit")) {
-            menuInflater.inflate(R.menu.menu_match_edit, menu)
-        } else {
-            menuInflater.inflate(R.menu.menu_match, menu)
-        }
+        menuInflater.inflate(R.menu.menu_add_match, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.item_delete -> {
-                app.matches.delete(match)
-                finish()
-            }
-            R.id.item_cancel -> {
-                finish()
-            }
-        }
+//        when (item.itemId) {
+//            R.id.item_cancel -> {
+//                finish()
+//            }
+//        }
         return super.onOptionsItemSelected(item)
     }
 

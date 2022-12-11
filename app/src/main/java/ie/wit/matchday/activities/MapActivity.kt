@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.window.OnBackInvokedDispatcher
+import androidx.core.os.BuildCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -15,6 +17,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import ie.wit.matchday.R
 import ie.wit.matchday.models.Location
+import timber.log.Timber.i
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback,
     GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener {
@@ -27,9 +30,22 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
         location = intent.extras?.getParcelable<Location>("location")!!
+        i("location in onCreate in Map Activity: ${location}")
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        if (BuildCompat.isAtLeastT()) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(
+                OnBackInvokedDispatcher.PRIORITY_DEFAULT
+            ) {
+                val resultIntent = Intent()
+                resultIntent.putExtra("location", location)
+                setResult(Activity.RESULT_OK, resultIntent)
+                i("location is on back pressed: $location")
+                finish()
+            }
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -63,7 +79,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         resultIntent.putExtra("location", location)
         setResult(Activity.RESULT_OK, resultIntent)
         finish()
-        super.onBackPressed()
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {

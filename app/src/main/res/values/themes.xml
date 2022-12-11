@@ -14,5 +14,13 @@
         <!-- Customize your theme here. -->
         <item name="android:actionMenuTextColor">@color/white</item>
 
+<!--        <style name="Theme.Matchday.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
+<!--        <style name="Theme.Matchday.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
+
+<!--        <style name="Theme.Matchday.NoActionBar">-->
+<!--            <item name="windowActionBar">false</item>-->
+<!--            <item name="windowNoTitle">true</item>-->
+<!--        </style>-->
+
     </style>
 </resources>
