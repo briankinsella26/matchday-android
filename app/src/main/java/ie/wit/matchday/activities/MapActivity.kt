@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.window.OnBackInvokedDispatcher
+import androidx.core.os.BuildCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -32,6 +34,18 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        if (BuildCompat.isAtLeastT()) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(
+                OnBackInvokedDispatcher.PRIORITY_DEFAULT
+            ) {
+                val resultIntent = Intent()
+                resultIntent.putExtra("location", location)
+                setResult(Activity.RESULT_OK, resultIntent)
+                i("location is on back pressed: $location")
+                finish()
+            }
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -58,14 +72,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         location.lat = marker.position.latitude
         location.lng = marker.position.longitude
         location.zoom = map.cameraPosition.zoom
-        i("location is now: $location")
     }
 
     override fun onBackPressed() {
         val resultIntent = Intent()
         resultIntent.putExtra("location", location)
         setResult(Activity.RESULT_OK, resultIntent)
-        i("location is on back pressed: $location")
         finish()
     }
 

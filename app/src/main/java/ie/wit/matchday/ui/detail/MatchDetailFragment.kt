@@ -15,14 +15,12 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import ie.wit.matchday.R
 import ie.wit.matchday.activities.MapActivity
 import ie.wit.matchday.databinding.FragmentMatchDetailBinding
 import ie.wit.matchday.models.Location
 import ie.wit.matchday.models.MatchModel
-import ie.wit.matchday.ui.addMatch.AddMatchFragmentDirections
 import java.util.*
 
 
@@ -46,7 +44,10 @@ class MatchDetailFragment : Fragment() {
         val root = fragBinding.root
 
         detailViewModel = ViewModelProvider(this).get(MatchDetailViewModel::class.java)
-        detailViewModel.observableMatch.observe(viewLifecycleOwner, Observer { render() })
+        detailViewModel.observableMatch.observe(viewLifecycleOwner, Observer {
+            match = detailViewModel.observableMatch.value!!
+            render()
+        })
 
         registerRefreshCallback()
         registerMapCallback()
@@ -89,12 +90,9 @@ class MatchDetailFragment : Fragment() {
         }
 
         fragBinding.locationButton.setOnClickListener {
-            val location = Location(52.245696, -7.139102, 15f)
-            if (match.zoom != 0f) {
-                location.lat = match.lat
-                location.lng = match.lng
-                location.zoom = match.zoom
-            }
+            location.lng = match.lng
+            location.lat = match.lat
+            location.zoom = match.zoom
             val launcherIntent = Intent(this.context, MapActivity::class.java)
                 .putExtra("location", location)
             mapIntentLauncher.launch(launcherIntent)
@@ -146,7 +144,7 @@ class MatchDetailFragment : Fragment() {
                             match.lat = location.lat
                             match.lng = location.lng
                             match.zoom = location.zoom
-                            fragBinding.locationButton.text = getString(R.string.location_set)
+                            fragBinding.locationButton.text = getString(R.string.location_updated)
                         }
                     }
                     AppCompatActivity.RESULT_CANCELED -> { } else -> { }

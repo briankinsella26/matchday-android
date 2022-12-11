@@ -21,6 +21,7 @@
     <string name="text_location">Location</string>
     <string name="hint_location">Set Location...</string>
     <string name="location_set">Location Set</string>
+    <string name="location_updated">Location Updated</string>
     <string name="location_edit">Edit Location</string>
     <string name="title_activity_map">MapActivity</string>
     <!-- Strings related to login -->
