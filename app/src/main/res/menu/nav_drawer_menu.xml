@@ -5,15 +5,17 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/addMatchFragment"
-            android:icon="@drawable/football"
-            android:title="@string/menu_addMatch" />
+            android:icon="@drawable/baseline_add_circle_outline_24"
+            android:title="@string/menu_addMatch"
+            android:tint="?attr/colorControlNormal"
+            />
         <item
-            android:id="@+id/profileFragment"
-            android:icon="@drawable/usergreen3"
+            android:id="@+id/matchesFragment"
+            android:icon="@drawable/baseline_list_24"
             android:title="@string/menu_matches" />
         <item
             android:id="@+id/aboutFragment"
-            android:icon="@drawable/about"
+            android:icon="@drawable/baseline_info_24"
             android:title="@string/action_about" />
     </group>
 </menu>
