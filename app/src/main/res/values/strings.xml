@@ -3,6 +3,7 @@
     <string name="menu_addMatch">Add Match</string>
     <string name="hint_matchOpponent">Opponent</string>
     <string name="button_addMatch">Add Match</string>
+    <string name="button_updateMatch">Update Match</string>
     <string name="hint_date">Select date...</string>
     <string name="hint_time">Select time...</string>
     <string name="date_text">Date: </string>

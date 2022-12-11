@@ -59,7 +59,8 @@ class MatchJSONStore(private val context: Context): MatchStore {
         if (foundMatch != null) {
             foundMatch.opponent = match.opponent
             foundMatch.result = match.result
-            foundMatch.homeOrAway = match.homeOrAway
+            foundMatch.home = match.home
+            foundMatch.away = match.away
             foundMatch.date = match.date
             foundMatch.time = match.time
             foundMatch.lat = match.lat

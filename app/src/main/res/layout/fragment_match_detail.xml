@@ -68,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
                         android:autofillHints="no"
-                        android:hint="@string/hint_result"
+                        android:text="@{matchvm.observableMatch.result}"
                         android:inputType="text"
                         android:maxLength="25"
                         android:maxLines="1"
@@ -82,18 +82,19 @@
                         android:orientation="horizontal">
 
                         <RadioButton
-                            android:id="@+id/homeGame"
+                            android:id="@+id/home"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="30dp"
-                            android:checked="true"
+                            android:checked="@{matchvm.observableMatch.home}"
                             android:text="@string/homeGame" />
 
                         <RadioButton
-                            android:id="@+id/awayGame"
+                            android:id="@+id/away"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="80dp"
+                            android:checked="@{matchvm.observableMatch.away}"
                             android:text="@string/awayGame" />
 
                     </RadioGroup>
@@ -121,7 +122,7 @@
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/hint_date"
+                            android:text="@{matchvm.observableMatch.date}"
                             android:textSize="14sp"/>
 
                     </LinearLayout>
@@ -149,7 +150,7 @@
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/hint_time"
+                            android:text="@{matchvm.observableMatch.time}"
                             android:textSize="14sp"/>
                     </LinearLayout>
 
@@ -176,20 +177,33 @@
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/hint_location"
+                            android:text="@string/location_edit"
                             android:textSize="14sp"/>
                     </LinearLayout>
 
                     <Button
                         android:backgroundTint="?attr/colorPrimaryVariant"
-                        android:id="@+id/btnAdd"
+                        android:id="@+id/btnUpdate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
                         android:stateListAnimator="@null"
-                        android:text="@string/button_addMatch"
+                        android:text="@string/button_updateMatch"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"/>
+
+                    <Button
+                        android:backgroundTint="?attr/colorPrimaryVariant"
+                        android:id="@+id/btnCancel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:stateListAnimator="@null"
+                        android:text="@string/menu_cancel"
                         android:textColor="@color/white"
                         android:textSize="16sp"/>
 

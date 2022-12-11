@@ -53,11 +53,11 @@ class MatchActivity : AppCompatActivity() {
             binding.result.setText(match.result)
             binding.date.text = match.date
             binding.time.text = match.time
-            if(match.homeOrAway == "Away") {
-                binding.awayGame.isChecked = true
-            } else {
-                binding.homeGame.isChecked = true
-            }
+//            if(match.homeOrAway == "Away") {
+//                binding.awayGame.isChecked = true
+//            } else {
+//                binding.homeGame.isChecked = true
+//            }
             binding.btnAdd.text = getString(R.string.button_saveMatch)
             binding.locationButton.text = getString(R.string.location_edit)
 
@@ -102,7 +102,7 @@ class MatchActivity : AppCompatActivity() {
         binding.btnAdd.setOnClickListener() {
             match.opponent = binding.matchOpponent.text.toString()
             match.result = binding.result.text.toString()
-            match.homeOrAway = homeOrAway(binding.awayGame.isChecked)
+//            match.homeOrAway = homeOrAway(binding.awayGame.isChecked)
             match.userId = app.loggedInUser.id
 
             if (match.opponent.isEmpty()) {

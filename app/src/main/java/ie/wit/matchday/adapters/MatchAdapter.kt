@@ -33,7 +33,7 @@ class MatchAdapter constructor(private var matches: List<MatchModel>, private va
         fun bind(match: MatchModel, listener: MatchListener) {
             binding.matchOpponent.text = match.opponent
             binding.result.text = match.result
-            binding.homeAway.text = match.homeOrAway
+            binding.homeAway.text = if(match.home) "home" else "away"
             binding.root.setOnClickListener { listener.onMatchClick(match)}
         }
     }

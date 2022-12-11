@@ -21,7 +21,19 @@ object MatchManager : MatchStore {
     }
 
     override fun update(match: MatchModel) {
-        TODO("Not yet implemented")
+        var foundMatch: MatchModel? = matches.find { p -> p.id == match.id}
+        if (foundMatch != null) {
+            foundMatch.opponent = match.opponent
+            foundMatch.result = match.result
+            foundMatch.home = match.home
+            foundMatch.away = match.away
+            foundMatch.date = match.date
+            foundMatch.time = match.time
+            foundMatch.lat = match.lat
+            foundMatch.lng = match.lng
+            foundMatch.zoom = match.zoom
+            logAll()
+        }
     }
 
     override fun delete(match: MatchModel) {

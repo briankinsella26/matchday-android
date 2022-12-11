@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import ie.wit.matchday.R
 import ie.wit.matchday.models.Location
+import timber.log.Timber.i
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback,
     GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener {
@@ -27,6 +28,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
         location = intent.extras?.getParcelable<Location>("location")!!
+        i("location in onCreate in Map Activity: ${location}")
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -56,14 +58,15 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         location.lat = marker.position.latitude
         location.lng = marker.position.longitude
         location.zoom = map.cameraPosition.zoom
+        i("location is now: $location")
     }
 
     override fun onBackPressed() {
         val resultIntent = Intent()
         resultIntent.putExtra("location", location)
         setResult(Activity.RESULT_OK, resultIntent)
+        i("location is on back pressed: $location")
         finish()
-        super.onBackPressed()
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {

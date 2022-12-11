@@ -6,7 +6,7 @@
     app:startDestination="@id/matchesFragment">
 
     <fragment
-        android:id="@+id/addMatchFragmentFragment"
+        android:id="@+id/addMatchFragment"
         android:name="ie.wit.matchday.ui.addMatch.AddMatchFragment"
         android:label="@string/menu_addMatch"
         tools:layout="@layout/fragment_add_match" >
@@ -23,7 +23,7 @@
         tools:layout="@layout/fragment_matches" >
         <action
             android:id="@+id/action_matchesFragment_to_addMatchFragment"
-            app:destination="@id/addMatchFragmentFragment"
+            app:destination="@id/addMatchFragment"
             app:popUpTo="@id/main_navigation"
             app:popUpToInclusive="true"
             app:enterAnim="@anim/nav_default_enter_anim"

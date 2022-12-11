@@ -29,6 +29,7 @@ import ie.wit.matchday.main.MainApp
 import ie.wit.matchday.models.Location
 import ie.wit.matchday.models.MatchModel
 import ie.wit.matchday.ui.matches.MatchesViewModel
+import timber.log.Timber.i
 import java.util.*
 
 class AddMatchFragment : Fragment() {
@@ -46,11 +47,7 @@ class AddMatchFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         app = activity?.application as MainApp
-        registerRefreshCallback()
-        registerMapCallback()
-
         navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
     }
 
@@ -60,6 +57,7 @@ class AddMatchFragment : Fragment() {
         val root = fragBinding.root
         activity?.title = getString(R.string.menu_addMatch)
 	    setupMenu()
+        registerMapCallback()
         addMatchViewModel = ViewModelProvider(this).get(AddMatchViewModel::class.java)
         addMatchViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
                 status -> status?.let { render(status) }
@@ -115,6 +113,24 @@ class AddMatchFragment : Fragment() {
 
         }
 
+        fragBinding.btnAdd.setOnClickListener {
+            match.opponent = fragBinding.matchOpponent.text.toString()
+            match.result = fragBinding.result.text.toString()
+            match.home = fragBinding.home.isChecked
+            match.away = fragBinding.away.isChecked
+            match.userId = app.loggedInUser.id
+
+            if (match.opponent.isEmpty()) {
+                Snackbar.make(
+                    it,
+                    getString(R.string.opponent_validation_message),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else {
+                addMatchViewModel.addMatch(match)
+            }
+        }
+
         setButtonListener(fragBinding)
         setCancelButtonListener(fragBinding)
 
@@ -151,11 +167,12 @@ class AddMatchFragment : Fragment() {
         }
     }
 
-    fun setButtonListener(layout: FragmentAddMatchBinding) {
+    private fun setButtonListener(layout: FragmentAddMatchBinding) {
         layout.btnAdd.setOnClickListener {
             match.opponent = fragBinding.matchOpponent.text.toString()
             match.result = fragBinding.result.text.toString()
-            match.homeOrAway = homeOrAway(fragBinding.awayGame.isChecked)
+            match.home = fragBinding.home.isChecked
+            match.away = fragBinding.away.isChecked
             match.userId = app.loggedInUser.id
 
             if (match.opponent.isEmpty()) {
@@ -166,14 +183,16 @@ class AddMatchFragment : Fragment() {
                 ).show()
             } else {
                 addMatchViewModel.addMatch(match)
-                navController.popBackStack()
+                val action = AddMatchFragmentDirections.actionAddMatchFragmentToMatchesFragment()
+                findNavController().navigate(action)
             }
         }
     }
 
-    fun setCancelButtonListener(layout: FragmentAddMatchBinding) {
+    private fun setCancelButtonListener(layout: FragmentAddMatchBinding) {
         layout.btnCancel.setOnClickListener {
-            navController.popBackStack()
+            val action = AddMatchFragmentDirections.actionAddMatchFragmentToMatchesFragment()
+            findNavController().navigate(action)
         }
     }
 
@@ -190,20 +209,16 @@ class AddMatchFragment : Fragment() {
 //        })
     }
 
-    private fun registerRefreshCallback() {
-        refreshIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            {}
-    }
-
     private fun registerMapCallback() {
         mapIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             { result ->
                 when (result.resultCode) {
                     AppCompatActivity.RESULT_OK -> {
+                        i("in register callback: ${result.data }")
                         if (result.data != null) {
                             location = result.data!!.extras?.getParcelable("location")!!
+                            i("in register callback location: $location")
                             match.lat = location.lat
                             match.lng = location.lng
                             match.zoom = location.zoom
@@ -213,14 +228,5 @@ class AddMatchFragment : Fragment() {
                     AppCompatActivity.RESULT_CANCELED -> { } else -> { }
                 }
             }
-    }
-
-    private fun homeOrAway(isAway: Boolean) : String {
-        return if (isAway) {
-            "Away"
-        } else {
-            "Home"
-        }
-
     }
 }
