@@ -7,15 +7,13 @@ import timber.log.Timber.i
 
 class MainApp: Application() {
 
-    lateinit var matches: MatchJSONStore
     lateinit var users: UserStore
     lateinit var loggedInUser: UserModel
 
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        matches = MatchJSONStore(applicationContext)
-        users = UserJSONStore(applicationContext)
+//        users = UserJSONStore(applicationContext)
         loggedInUser = UserModel()
         i("Matchday started")
     }

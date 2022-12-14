@@ -18,7 +18,7 @@
         android:theme="@style/Theme.AppSplash">
 
         <activity
-            android:name="ie.wit.matchday.activities.Home"
+            android:name="ie.wit.matchday.ui.auth.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,18 +31,18 @@
                 android:value="" />
         </activity>
 
+        <activity
+            android:name="ie.wit.matchday.ui.auth.Signup"
+            android:exported="true">
+        </activity>
 
-
-<!--        <activity-->
-<!--            android:name=".activities.LoginActivity"-->
-<!--            android:exported="false">-->
-<!--            <meta-data-->
-<!--                android:name="android.app.lib_name"-->
-<!--                android:value="" />-->
-<!--        </activity>-->
-<!--        <activity-->
-<!--            android:name=".activities.SignupActivity"-->
-<!--            android:exported="false"></activity>-->
+        <activity
+            android:name="ie.wit.matchday.activities.Home"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

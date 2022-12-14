@@ -47,6 +47,6 @@
             app:destination="@id/matchesFragment" />
         <argument
             android:name="matchid"
-            app:argType="long" />
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -28,20 +29,19 @@ import ie.wit.matchday.databinding.FragmentAddMatchBinding
 import ie.wit.matchday.main.MainApp
 import ie.wit.matchday.models.Location
 import ie.wit.matchday.models.MatchModel
-import ie.wit.matchday.ui.matches.MatchesViewModel
+import ie.wit.matchday.ui.auth.LoggedInViewModel
 import timber.log.Timber.i
 import java.util.*
 
 class AddMatchFragment : Fragment() {
 
     private var _fragBinding: FragmentAddMatchBinding? = null
-    // This property is only valid between onCreateView and onDestroyView.
     private val fragBinding get() = _fragBinding!!
     lateinit var navController: NavController
     private lateinit var addMatchViewModel: AddMatchViewModel
     lateinit var app: MainApp
-    private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
+    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
     var location = Location(52.245696, -7.139102, 15f)
     var match = MatchModel()
 
@@ -113,24 +113,6 @@ class AddMatchFragment : Fragment() {
 
         }
 
-        fragBinding.btnAdd.setOnClickListener {
-            match.opponent = fragBinding.matchOpponent.text.toString()
-            match.result = fragBinding.result.text.toString()
-            match.home = fragBinding.home.isChecked
-            match.away = fragBinding.away.isChecked
-            match.userId = app.loggedInUser.id
-
-            if (match.opponent.isEmpty()) {
-                Snackbar.make(
-                    it,
-                    getString(R.string.opponent_validation_message),
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            } else {
-                addMatchViewModel.addMatch(match)
-            }
-        }
-
         setButtonListener(fragBinding)
         setCancelButtonListener(fragBinding)
 
@@ -140,7 +122,6 @@ class AddMatchFragment : Fragment() {
  private fun setupMenu() {
         (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
             override fun onPrepareMenu(menu: Menu) {
-                // Handle for example visibility of menu items
             }
 
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -148,7 +129,6 @@ class AddMatchFragment : Fragment() {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                // Validate and handle the selected menu item
                 return NavigationUI.onNavDestinationSelected(menuItem,
                     requireView().findNavController())
             }
@@ -159,8 +139,6 @@ class AddMatchFragment : Fragment() {
         when (status) {
             true -> {
                 view?.let {
-//                    Uncomment this if you want to immediately return to Matches
-//                    findNavController().popBackStack()
                 }
             }
             false -> Toast.makeText(context,getString(R.string.add_match_error),Toast.LENGTH_LONG).show()
@@ -173,7 +151,7 @@ class AddMatchFragment : Fragment() {
             match.result = fragBinding.result.text.toString()
             match.home = fragBinding.home.isChecked
             match.away = fragBinding.away.isChecked
-            match.userId = app.loggedInUser.id
+            match.email = loggedInViewModel.liveFirebaseUser.value?.email!!
 
             if (match.opponent.isEmpty()) {
                 Snackbar.make(
@@ -182,7 +160,7 @@ class AddMatchFragment : Fragment() {
                     Snackbar.LENGTH_SHORT
                 ).show()
             } else {
-                addMatchViewModel.addMatch(match)
+                addMatchViewModel.addMatch(loggedInViewModel.liveFirebaseUser, match)
                 val action = AddMatchFragmentDirections.actionAddMatchFragmentToMatchesFragment()
                 findNavController().navigate(action)
             }
@@ -203,10 +181,6 @@ class AddMatchFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val matchesViewModel = ViewModelProvider(this).get(MatchesViewModel::class.java)
-//        matchesViewModel.observableMatchesList.observe(viewLifecycleOwner, Observer {
-//                totalMatches = matchesViewModel.observableMatchesList.value!!.sumOf { it.amount }
-//        })
     }
 
     private fun registerMapCallback() {

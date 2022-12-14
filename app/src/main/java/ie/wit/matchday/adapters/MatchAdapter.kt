@@ -6,12 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import ie.wit.matchday.databinding.CardMatchBinding
 import ie.wit.matchday.models.MatchModel
 
-interface MatchListener {
+interface MatchClickListener {
     fun onMatchClick(match: MatchModel)
 }
 
-class MatchAdapter constructor(private var matches: List<MatchModel>, private val listener: MatchListener) :
-    RecyclerView.Adapter<MatchAdapter.MainHolder>() {
+class MatchAdapter constructor(private var matches: ArrayList<MatchModel>,
+                                  private val listener: MatchClickListener)
+    : RecyclerView.Adapter<MatchAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = CardMatchBinding
@@ -25,16 +26,20 @@ class MatchAdapter constructor(private var matches: List<MatchModel>, private va
         holder.bind(match, listener)
     }
 
+    fun removeAt(position: Int) {
+        matches.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     override fun getItemCount(): Int = matches.size
 
-    class MainHolder(private val binding : CardMatchBinding) :
+    inner class MainHolder(val binding : CardMatchBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(match: MatchModel, listener: MatchListener) {
-            binding.matchOpponent.text = match.opponent
-            binding.result.text = match.result
-            binding.homeAway.text = if(match.home) "home" else "away"
-            binding.root.setOnClickListener { listener.onMatchClick(match)}
+        fun bind(match: MatchModel, listener: MatchClickListener) {
+            binding.match = match
+            binding.root.setOnClickListener { listener.onMatchClick(match) }
+            binding.executePendingBindings()
         }
     }
 }

@@ -51,8 +51,9 @@
     <string name="menu_about">About</string>
 
     <string name="nav_header_title">Matchday</string>
-    <string name="nav_header_subtitle">The number 1 coaching app</string>
+    <string name="nav_header_subtitle">Unknown user</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="sign_out">Sign Out</string>
 
     <string name="action_about">About Us</string>
     <string name="match_detail">Match Details</string>
