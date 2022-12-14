@@ -1,5 +1,6 @@
 package ie.wit.matchday.ui.matches
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.MenuHost
@@ -11,7 +12,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ie.wit.matchday.R
 import ie.wit.matchday.adapters.MatchAdapter
@@ -19,6 +22,7 @@ import ie.wit.matchday.adapters.MatchClickListener
 import ie.wit.matchday.databinding.FragmentMatchesBinding
 import ie.wit.matchday.models.MatchModel
 import ie.wit.matchday.ui.auth.LoggedInViewModel
+import ie.wit.matchday.utils.*
 
 class MatchesFragment : Fragment(), MatchClickListener {
 
@@ -26,6 +30,7 @@ class MatchesFragment : Fragment(), MatchClickListener {
     private val fragBinding get() = _fragBinding!!
     private val matchesViewModel: MatchesViewModel by activityViewModels()
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
+    lateinit var loader : AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,10 +43,15 @@ class MatchesFragment : Fragment(), MatchClickListener {
         _fragBinding = FragmentMatchesBinding.inflate(inflater, container, false)
         val root = fragBinding.root
 	    setupMenu()
+        loader = createLoader(requireActivity())
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
+        showLoader(loader,"Downloading Matches")
         matchesViewModel.observableMatchesList.observe(viewLifecycleOwner, Observer {
                 matches ->
-            matches?.let { render(matches as ArrayList<MatchModel>) }
+            matches?.let { render(matches as ArrayList<MatchModel>)
+                hideLoader(loader)
+                checkSwipeRefresh()
+            }
         })
 
         val fab: FloatingActionButton = fragBinding.fab
@@ -49,6 +59,31 @@ class MatchesFragment : Fragment(), MatchClickListener {
             val action = MatchesFragmentDirections.actionMatchesFragmentToAddMatchFragment()
             findNavController().navigate(action)
         }
+
+        setSwipeRefresh()
+
+        val swipeDeleteHandler = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                showLoader(loader,"Deleting Match")
+                val adapter = fragBinding.recyclerView.adapter as MatchAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
+                matchesViewModel.delete(matchesViewModel.liveFirebaseUser.value?.uid!!,
+                    (viewHolder.itemView.tag as MatchModel).uid!!)
+
+                hideLoader(loader)
+            }
+        }
+        val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
+        itemTouchDeleteHelper.attachToRecyclerView(fragBinding.recyclerView)
+
+        val swipeEditHandler = object : SwipeToEditCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                onMatchClick(viewHolder.itemView.tag as MatchModel)
+            }
+        }
+        val itemTouchEditHelper = ItemTouchHelper(swipeEditHandler)
+        itemTouchEditHelper.attachToRecyclerView(fragBinding.recyclerView)
+
         return root
     }
 
@@ -69,7 +104,6 @@ class MatchesFragment : Fragment(), MatchClickListener {
     }
 
     private fun render(matchList: ArrayList<MatchModel>) {
-        timber.log.Timber.i("matchlost zzzz: ${matchList}")
         fragBinding.recyclerView.adapter = MatchAdapter(matchList,this)
         if (matchList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
@@ -85,8 +119,22 @@ class MatchesFragment : Fragment(), MatchClickListener {
         findNavController().navigate(action)
     }
 
+    private fun setSwipeRefresh() {
+        fragBinding.swiperefresh.setOnRefreshListener {
+            fragBinding.swiperefresh.isRefreshing = true
+            showLoader(loader,"Downloading Matches")
+            matchesViewModel.load()
+        }
+    }
+
+    private fun checkSwipeRefresh() {
+        if (fragBinding.swiperefresh.isRefreshing)
+            fragBinding.swiperefresh.isRefreshing = false
+    }
+
     override fun onResume() {
         super.onResume()
+        showLoader(loader,"Downloading Matches")
         loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
             if (firebaseUser != null) {
                 matchesViewModel.liveFirebaseUser.value = firebaseUser
