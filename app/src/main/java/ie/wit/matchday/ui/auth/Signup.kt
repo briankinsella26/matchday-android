@@ -33,6 +33,10 @@ class Signup : AppCompatActivity() {
 
             signup(user.email, user.password)
         }
+
+        signupBinding.login.setOnClickListener() {
+            startActivity(Intent(this, Login::class.java))
+        }
     }
 
     public override fun onStart() {
