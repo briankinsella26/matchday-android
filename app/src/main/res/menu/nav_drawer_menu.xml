@@ -17,6 +17,15 @@
             android:id="@+id/aboutFragment"
             android:icon="@drawable/baseline_info_24"
             android:title="@string/action_about" />
+        <item android:title="User Profile">
+            <menu>
+                <item
+                    android:id="@+id/signout"
+                    android:icon="@android:drawable/ic_menu_revert"
+                    android:onClick="signOut"
+                    android:title="@string/sign_out" />
+            </menu>
+        </item>
     </group>
 </menu>
 

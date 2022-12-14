@@ -5,9 +5,9 @@ import android.view.*
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -15,17 +15,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ie.wit.matchday.R
 import ie.wit.matchday.adapters.MatchAdapter
-import ie.wit.matchday.adapters.MatchListener
+import ie.wit.matchday.adapters.MatchClickListener
 import ie.wit.matchday.databinding.FragmentMatchesBinding
-import ie.wit.matchday.main.MainApp
 import ie.wit.matchday.models.MatchModel
+import ie.wit.matchday.ui.auth.LoggedInViewModel
 
-class MatchesFragment : Fragment(), MatchListener {
+class MatchesFragment : Fragment(), MatchClickListener {
 
-    lateinit var app: MainApp
     private var _fragBinding: FragmentMatchesBinding? = null
     private val fragBinding get() = _fragBinding!!
-    private lateinit var matchesViewModel: MatchesViewModel
+    private val matchesViewModel: MatchesViewModel by activityViewModels()
+    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +39,9 @@ class MatchesFragment : Fragment(), MatchListener {
         val root = fragBinding.root
 	    setupMenu()
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
-        matchesViewModel = ViewModelProvider(this).get(MatchesViewModel::class.java)
         matchesViewModel.observableMatchesList.observe(viewLifecycleOwner, Observer {
                 matches ->
-            matches?.let { render(matches) }
+            matches?.let { render(matches as ArrayList<MatchModel>) }
         })
 
         val fab: FloatingActionButton = fragBinding.fab
@@ -56,7 +55,6 @@ class MatchesFragment : Fragment(), MatchListener {
    private fun setupMenu() {
         (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
             override fun onPrepareMenu(menu: Menu) {
-                // Handle for example visibility of menu items
             }
 
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -64,16 +62,16 @@ class MatchesFragment : Fragment(), MatchListener {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                // Validate and handle the selected menu item
                 return NavigationUI.onNavDestinationSelected(menuItem,
                     requireView().findNavController())
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
-    private fun render(matchesList: List<MatchModel>) {
-        fragBinding.recyclerView.adapter = MatchAdapter(matchesList,this)
-        if (matchesList.isEmpty()) {
+    private fun render(matchList: ArrayList<MatchModel>) {
+        timber.log.Timber.i("matchlost zzzz: ${matchList}")
+        fragBinding.recyclerView.adapter = MatchAdapter(matchList,this)
+        if (matchList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
             fragBinding.matchesNotFound.visibility = View.VISIBLE
         } else {
@@ -83,13 +81,18 @@ class MatchesFragment : Fragment(), MatchListener {
     }
 
     override fun onMatchClick(match: MatchModel) {
-        val action = MatchesFragmentDirections.actionMatchesFragmentToMatchDetailFragment(match.id)
+        val action = MatchesFragmentDirections.actionMatchesFragmentToMatchDetailFragment(match.uid)
         findNavController().navigate(action)
     }
 
     override fun onResume() {
         super.onResume()
-        matchesViewModel.load()
+        loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
+            if (firebaseUser != null) {
+                matchesViewModel.liveFirebaseUser.value = firebaseUser
+                matchesViewModel.load()
+            }
+        })
     }
 
     override fun onDestroyView() {

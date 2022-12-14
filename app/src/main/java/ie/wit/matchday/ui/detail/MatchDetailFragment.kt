@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -21,6 +22,7 @@ import ie.wit.matchday.activities.MapActivity
 import ie.wit.matchday.databinding.FragmentMatchDetailBinding
 import ie.wit.matchday.models.Location
 import ie.wit.matchday.models.MatchModel
+import ie.wit.matchday.ui.auth.LoggedInViewModel
 import java.util.*
 
 
@@ -29,6 +31,7 @@ class MatchDetailFragment : Fragment() {
     private lateinit var detailViewModel: MatchDetailViewModel
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
+    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
     private val args by navArgs<MatchDetailFragmentArgs>()
     private var _fragBinding: FragmentMatchDetailBinding? = null
     private val fragBinding get() = _fragBinding!!
@@ -105,7 +108,7 @@ class MatchDetailFragment : Fragment() {
             match.home = fragBinding.home.isChecked
             match.away = fragBinding.away.isChecked
 
-            detailViewModel.updateMatch(match)
+            detailViewModel.updateMatch(loggedInViewModel.liveFirebaseUser.value?.uid!!, args.matchid, match)
             val action = MatchDetailFragmentDirections.actionMatchDetailFragmentToMatchesFragment()
             findNavController().navigate(action)
         }
@@ -119,7 +122,8 @@ class MatchDetailFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        detailViewModel.getMatch(args.matchid)
+        detailViewModel.getMatch(loggedInViewModel.liveFirebaseUser.value?.uid!!,
+            args.matchid)
     }
 
     override fun onDestroyView() {
