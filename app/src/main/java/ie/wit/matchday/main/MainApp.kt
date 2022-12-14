@@ -13,7 +13,6 @@ class MainApp: Application() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-//        users = UserJSONStore(applicationContext)
         loggedInUser = UserModel()
         i("Matchday started")
     }

@@ -37,6 +37,7 @@ class MatchAdapter constructor(private var matches: ArrayList<MatchModel>,
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(match: MatchModel, listener: MatchClickListener) {
+            binding.root.tag = match
             binding.match = match
             binding.root.setOnClickListener { listener.onMatchClick(match) }
             binding.executePendingBindings()
