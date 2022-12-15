@@ -3,6 +3,7 @@ package ie.wit.matchday.ui.auth
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseUser
 import ie.wit.matchday.firebase.FirebaseAuthManager
 
@@ -14,6 +15,10 @@ class LoginViewModel (app: Application) : AndroidViewModel(app) {
 
     fun login(email: String?, password: String?) {
         firebaseAuthManager.login(email, password)
+    }
+
+    fun authWithGoogle(acct: GoogleSignInAccount) {
+        firebaseAuthManager.firebaseAuthWithGoogle(acct)
     }
 }
 
