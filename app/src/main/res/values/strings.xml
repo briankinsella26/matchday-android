@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Matchday</string>
     <string name="menu_addMatch">Add Match</string>
-    <string name="hint_matchOpponent">Opponent</string>
+    <string name="hint_team">Team</string>
     <string name="button_addMatch">Add Match</string>
     <string name="button_updateMatch">Update Match</string>
     <string name="hint_date">Select date...</string>
@@ -9,14 +9,16 @@
     <string name="date_text">Date: </string>
     <string name="time_text">Time: </string>
     <string name="hint_result">Result</string>
-    <string name="awayGame">Away Game</string>
-    <string name="homeGame">Home Game</string>
+    <string name="cupGame">Cup Game</string>
+    <string name="leagueGame">League Game</string>
+    <string name="homeTeam_text">Home Team</string>
+    <string name="awayTeam_text">Away Game</string>
     <string name="menu_matches">Matches</string>
     <string name="menu_logout">Logout</string>
     <string name="menu_cancel">Cancel</string>
     <string name="menu_delete">Delete</string>
-    <string name="opponent_validation_message">Please enter an opponent name</string>
-    <string name="homeOrAway_validation_message">Please choose home or away game</string>
+    <string name="teams_validation_message">Please choose team</string>
+    <string name="leagueOrCup_validation_message">Please choose league or cup game</string>
     <string name="button_saveMatch">Save Match</string>
     <string name="text_location">Location</string>
     <string name="hint_location">Set Location...</string>
@@ -72,4 +74,50 @@
         Lorem ipsum
     </string>
     <string name="fragment_login_label">login_label</string>
+
+    <string-array name="teams_array">
+        <item>Select team</item>
+        <item>Arsenal</item>
+        <item>Burnley</item>
+        <item>Bolton</item>
+        <item>Chelsea</item>
+        <item>Everton</item>
+        <item>Liverpool</item>
+        <item>Manchester Utd</item>
+        <item>Manchester City</item>
+        <item>West Ham</item>
+    </string-array>
+
+    <string-array name="score_home_array">
+        <item>Home</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+    <string-array name="score_away_array">
+        <item>Away</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
 </resources>

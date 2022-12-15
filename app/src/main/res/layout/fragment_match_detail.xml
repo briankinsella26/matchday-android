@@ -29,13 +29,6 @@
                 android:fitsSystemWindows="true"
                 app:elevation="0dip">
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:titleTextColor="@color/white"
-                    style="@style/Widget.MaterialComponents.Toolbar.Primary"
-                    />
             </com.google.android.material.appbar.AppBarLayout>
 
             <ScrollView
@@ -49,31 +42,94 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/matchOpponent"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_margin="16dp"
-                        android:autofillHints="no"
-                        android:text="@{matchvm.observableMatch.opponent}"
-                        android:inputType="text"
-                        android:maxLength="25"
-                        android:maxLines="1"
-                        android:padding="8dp"
-                        android:textSize="14sp" />
-
-                    <EditText
-                        android:id="@+id/result"
+                    <LinearLayout
+                        android:id="@+id/opponent_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:autofillHints="no"
-                        android:text="@{matchvm.observableMatch.result}"
-                        android:inputType="text"
-                        android:maxLength="25"
-                        android:maxLines="1"
-                        android:padding="8dp"
-                        android:textSize="14sp" />
+                        android:layout_alignParentBottom="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/homeTeam_text"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_margin="16dp"
+                            android:hint="@string/homeTeam_text"
+                            android:padding="8dp"
+                            android:stateListAnimator="@null"
+                            android:textSize="14sp" />
+
+
+                        <Spinner
+                            android:id="@+id/homeTeam_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/awayTeam_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/awayTeam_text"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_margin="16dp"
+                            android:hint="@string/awayTeam_text"
+                            android:padding="8dp"
+                            android:stateListAnimator="@null"
+                            android:textSize="14sp" />
+
+
+                        <Spinner
+                            android:id="@+id/awayTeam_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/resultLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/score_text"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_margin="16dp"
+                            android:hint="Score"
+                            android:padding="8dp"
+                            android:stateListAnimator="@null"
+                            android:textSize="14sp" />
+
+                        <Spinner
+                            android:id="@+id/home_score"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:textSize="14sp"/>
+
+                        <Spinner
+                            android:id="@+id/away_score"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:textSize="14sp"/>
+
+
+                    </LinearLayout>
 
                     <RadioGroup
                         android:id="@+id/radioGroup"
@@ -82,20 +138,20 @@
                         android:orientation="horizontal">
 
                         <RadioButton
-                            android:id="@+id/home"
+                            android:id="@+id/leagueGame"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="30dp"
-                            android:checked="@{matchvm.observableMatch.home}"
-                            android:text="@string/homeGame" />
+                            android:checked="@{matchvm.observableMatch.leagueGame}"
+                            android:text="@string/leagueGame" />
 
                         <RadioButton
-                            android:id="@+id/away"
+                            android:id="@+id/cupGame"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="80dp"
-                            android:checked="@{matchvm.observableMatch.away}"
-                            android:text="@string/awayGame" />
+                            android:checked="@{matchvm.observableMatch.cupGame}"
+                            android:text="@string/cupGame" />
 
                     </RadioGroup>
 
