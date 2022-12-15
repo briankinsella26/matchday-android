@@ -2,17 +2,20 @@ package ie.wit.matchday.ui.detail
 
 import android.content.Intent
 import android.icu.text.SimpleDateFormat
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -45,6 +48,10 @@ class MatchDetailFragment : Fragment() {
 
         _fragBinding = FragmentMatchDetailBinding.inflate(inflater, container, false)
         val root = fragBinding.root
+        val homeTeamSpinner: Spinner = fragBinding.homeTeamSpinner
+        val awayTeamSpinner: Spinner = fragBinding.awayTeamSpinner
+        val homeScoreSpinner: Spinner = fragBinding.homeScore
+        val awayScoreSpinner: Spinner = fragBinding.awayScore
 
         detailViewModel = ViewModelProvider(this).get(MatchDetailViewModel::class.java)
         detailViewModel.observableMatch.observe(viewLifecycleOwner, Observer {
@@ -55,6 +62,118 @@ class MatchDetailFragment : Fragment() {
         registerRefreshCallback()
         registerMapCallback()
         setCancelButtonListener(fragBinding)
+
+        ArrayAdapter.createFromResource(
+            requireActivity(),
+            R.array.teams_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            homeTeamSpinner.adapter = adapter
+        }
+        detailViewModel.observableMatch.observe(viewLifecycleOwner, Observer {
+            match = detailViewModel.observableMatch.value!!
+
+            homeTeamSpinner.setSelection(
+                (homeTeamSpinner.adapter as ArrayAdapter<String?>).getPosition(match.homeTeam))
+
+            awayTeamSpinner.setSelection(
+                (awayTeamSpinner.adapter as ArrayAdapter<String?>).getPosition(match.awayTeam))
+
+            homeScoreSpinner.setSelection(
+                (homeScoreSpinner.adapter as ArrayAdapter<String?>).getPosition(match.homeScore))
+
+            awayScoreSpinner.setSelection(
+                (homeScoreSpinner.adapter as ArrayAdapter<String?>).getPosition(match.awayScore))
+        })
+
+        homeTeamSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                if (parent != null) {
+                    match.homeTeam = parent.getItemAtPosition(pos) as String
+                }
+                if(match.homeTeam == "Select team") match.homeTeam == ""
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                match.homeTeam = ""
+            }
+        }
+
+
+        ArrayAdapter.createFromResource(
+            requireActivity(),
+            R.array.teams_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            awayTeamSpinner.adapter = adapter
+        }
+
+        awayTeamSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                if (parent != null) {
+                    match.awayTeam = parent.getItemAtPosition(pos) as String
+                }
+                if(match.awayTeam == "Select team") match.awayTeam == ""
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                match.awayTeam = ""
+            }
+        }
+
+        ArrayAdapter.createFromResource(
+            requireActivity(),
+            R.array.score_home_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            homeScoreSpinner.adapter = adapter
+        }
+
+        homeScoreSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                if (parent != null) {
+                    match.homeScore = parent.getItemAtPosition(pos) as String
+                }
+                if(match.homeScore == "Home") match.homeScore == ""
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                match.homeScore = ""
+            }
+        }
+
+        ArrayAdapter.createFromResource(
+            requireActivity(),
+            R.array.score_away_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            awayScoreSpinner.adapter = adapter
+        }
+
+        awayScoreSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                if (parent != null) {
+                    match.awayScore = parent.getItemAtPosition(pos) as String
+                }
+                if(match.awayScore == "Home") match.awayScore == ""
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                match.awayScore = ""
+            }
+        }
 
         val datePicker: MaterialDatePicker<Long> = MaterialDatePicker
             .Builder
@@ -103,11 +222,12 @@ class MatchDetailFragment : Fragment() {
         }
 
         fragBinding.btnUpdate.setOnClickListener {
-            match.opponent = fragBinding.matchOpponent.text.toString()
-            match.result = fragBinding.result.text.toString()
-            match.home = fragBinding.home.isChecked
-            match.away = fragBinding.away.isChecked
-
+            detailViewModel.observableMatch.observe(viewLifecycleOwner, Observer {
+                var matchUpdate = detailViewModel.observableMatch.value!!
+                match.matchTitle = matchUpdate.homeTeam + "  vs  " + matchUpdate.awayTeam
+            })
+            match.leagueGame = fragBinding.leagueGame.isChecked
+            match.cupGame = fragBinding.cupGame.isChecked
             detailViewModel.updateMatch(loggedInViewModel.liveFirebaseUser.value?.uid!!, args.matchid, match)
             val action = MatchDetailFragmentDirections.actionMatchDetailFragmentToMatchesFragment()
             findNavController().navigate(action)

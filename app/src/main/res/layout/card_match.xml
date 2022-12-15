@@ -22,18 +22,19 @@
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/matchOpponent"
+                android:id="@+id/matchTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:textSize="30sp"
-                android:text="@{match.opponent}"/>
+                android:text="@{match.matchTitle}"/>
+
 
             <TextView
-                android:id="@+id/homeAway"
+                android:id="@+id/matchDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/matchOpponent"
+                android:layout_below="@id/matchTitle"
                 tools:text="@{match.date}"/>
 
 
@@ -41,8 +42,8 @@
                 android:id="@+id/result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/homeAway"
-                tools:text="@{match.result}" />
+                android:layout_below="@id/matchDate"
+                tools:text="@{match.result"/>
 
 
         </RelativeLayout>

@@ -4,6 +4,10 @@ import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.*
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,6 +36,7 @@ import ie.wit.matchday.models.MatchModel
 import ie.wit.matchday.ui.auth.LoggedInViewModel
 import timber.log.Timber.i
 import java.util.*
+
 
 class AddMatchFragment : Fragment() {
 
@@ -62,6 +67,103 @@ class AddMatchFragment : Fragment() {
         addMatchViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
                 status -> status?.let { render(status) }
         })
+
+        val homeTeamSpinner: Spinner = fragBinding.homeTeamSpinner
+        ArrayAdapter.createFromResource(
+            requireActivity(),
+            R.array.teams_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            homeTeamSpinner.adapter = adapter
+        }
+        homeTeamSpinner?.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?,view: View?,pos: Int, id: Long) {
+                if (parent != null) {
+                    match.homeTeam = parent.getItemAtPosition(pos) as String
+                }
+                if(match.homeTeam == "Select team") match.homeTeam == ""
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                match.homeTeam = ""
+            }
+        }
+
+        val awayTeamSpinner: Spinner = fragBinding.awayTeamSpinner
+        ArrayAdapter.createFromResource(
+            requireActivity(),
+            R.array.teams_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            awayTeamSpinner.adapter = adapter
+        }
+        awayTeamSpinner?.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?,view: View?,pos: Int, id: Long) {
+                if (parent != null) {
+                    match.awayTeam = parent.getItemAtPosition(pos) as String
+                }
+                if(match.awayTeam == "Select team") match.awayTeam == ""
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                match.awayTeam = ""
+            }
+        }
+
+
+        val homeScoreSpinner: Spinner = fragBinding.homeScore
+        ArrayAdapter.createFromResource(
+            requireActivity(),
+            R.array.score_home_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            homeScoreSpinner.adapter = adapter
+        }
+        homeScoreSpinner?.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?,view: View?,pos: Int, id: Long) {
+                if (parent != null) {
+                    match.homeScore = parent.getItemAtPosition(pos) as String
+                }
+                if(match.homeScore == "Home") match.homeScore == ""
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                match.homeScore = ""
+            }
+        }
+
+        val awayScoreSpinner: Spinner = fragBinding.awayScore
+        ArrayAdapter.createFromResource(
+            requireActivity(),
+            R.array.score_away_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            awayScoreSpinner.adapter = adapter
+        }
+        awayScoreSpinner?.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?,view: View?,pos: Int, id: Long) {
+                if (parent != null) {
+                    match.awayScore = parent.getItemAtPosition(pos) as String
+                }
+                if(match.awayScore == "Home") match.awayScore == ""
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                match.awayScore = ""
+            }
+        }
 
 
         val datePicker: MaterialDatePicker<Long> = MaterialDatePicker
@@ -119,7 +221,7 @@ class AddMatchFragment : Fragment() {
         return root;
     }
 
- private fun setupMenu() {
+    private fun setupMenu() {
         (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
             override fun onPrepareMenu(menu: Menu) {
             }
@@ -147,16 +249,16 @@ class AddMatchFragment : Fragment() {
 
     private fun setButtonListener(layout: FragmentAddMatchBinding) {
         layout.btnAdd.setOnClickListener {
-            match.opponent = fragBinding.matchOpponent.text.toString()
-            match.result = fragBinding.result.text.toString()
-            match.home = fragBinding.home.isChecked
-            match.away = fragBinding.away.isChecked
+            match.matchTitle = match.homeTeam + "  vs  " + match.awayTeam
+            match.result = fragBinding.homeScore.toString() + " - " + fragBinding.awayScore.toString()
+            match.leagueGame = fragBinding.leagueGame.isChecked
+            match.cupGame = fragBinding.cupGame.isChecked
             match.email = loggedInViewModel.liveFirebaseUser.value?.email!!
 
-            if (match.opponent.isEmpty()) {
+            if (match.homeTeam.isEmpty() || match.awayTeam.isEmpty()) {
                 Snackbar.make(
                     it,
-                    getString(R.string.opponent_validation_message),
+                    getString(R.string.teams_validation_message),
                     Snackbar.LENGTH_SHORT
                 ).show()
             } else {
