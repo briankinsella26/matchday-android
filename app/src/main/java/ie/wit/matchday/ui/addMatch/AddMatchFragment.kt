@@ -250,7 +250,7 @@ class AddMatchFragment : Fragment() {
     private fun setButtonListener(layout: FragmentAddMatchBinding) {
         layout.btnAdd.setOnClickListener {
             match.matchTitle = match.homeTeam + "  vs  " + match.awayTeam
-            match.result = fragBinding.homeScore.toString() + " - " + fragBinding.awayScore.toString()
+            match.result = match.homeScore + " - " + match.awayScore
             match.leagueGame = fragBinding.leagueGame.isChecked
             match.cupGame = fragBinding.cupGame.isChecked
             match.email = loggedInViewModel.liveFirebaseUser.value?.email!!

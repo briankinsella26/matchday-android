@@ -53,13 +53,16 @@
     <string name="previous">Previous</string>
     <string name="menu_about">About</string>
 
-    <string name="nav_header_title">Matchday</string>
-    <string name="nav_header_subtitle">Unknown user</string>
+    <string name="nav_header_title">User name</string>
+    <string name="nav_header_subtitle">User email</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="sign_out">Sign Out</string>
 
     <string name="action_about">About Us</string>
     <string name="match_detail">Match Details</string>
+    <string name="match_date">Date</string>
+    <string name="match_result">Result</string>
+    <string name="match_title">Match Title</string>
     <string name="aboutus_title">We are a one man operation</string>
     <string name="aboutus_message">This app is the best for coaches. Please tell your friends</string>
 
