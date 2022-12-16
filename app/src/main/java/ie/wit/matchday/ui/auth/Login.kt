@@ -19,6 +19,7 @@ import ie.wit.matchday.databinding.LoginBinding
 import ie.wit.matchday.activities.Home
 import ie.wit.matchday.models.UserModel
 import timber.log.Timber
+import timber.log.Timber.i
 
 class Login : AppCompatActivity() {
 
@@ -34,8 +35,8 @@ class Login : AppCompatActivity() {
         setContentView(loginBinding.root)
 
         loginBinding.login.setOnClickListener() {
-            user.email = loginBinding.email.text.toString()
-            user.password = loginBinding.password.text.toString()
+            user.email = loginBinding.email.editText?.text.toString()
+            user.password = loginBinding.password.editText?.text.toString()
 
             login(user.email, user.password)
         }
@@ -86,7 +87,7 @@ class Login : AppCompatActivity() {
     private fun validateForm(): Boolean {
         var valid = true
 
-        val email = loginBinding.email.text.toString()
+        val email = loginBinding.email.editText?.text.toString()
         if (TextUtils.isEmpty(email)) {
             loginBinding.email.error = "Required."
             valid = false
@@ -94,7 +95,7 @@ class Login : AppCompatActivity() {
             loginBinding.email.error = null
         }
 
-        val password = loginBinding.password.text.toString()
+        val password = loginBinding.password.editText?.text.toString()
         if (TextUtils.isEmpty(password)) {
             loginBinding.password.error = "Required."
             valid = false

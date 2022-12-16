@@ -28,8 +28,8 @@ class Signup : AppCompatActivity() {
         setContentView(signupBinding.root)
 
         signupBinding.signupButton.setOnClickListener() {
-            user.email = signupBinding.signupEmail.text.toString()
-            user.password = signupBinding.signupPassword.text.toString()
+            user.email = signupBinding.signupEmail.editText?.text.toString()
+            user.password = signupBinding.signupPassword.editText?.text.toString()
 
             signup(user.email, user.password)
         }
@@ -74,7 +74,7 @@ class Signup : AppCompatActivity() {
     private fun validateForm(): Boolean {
         var valid = true
 
-        val email = signupBinding.signupEmail.text.toString()
+        val email = signupBinding.signupEmail.editText?.text.toString()
         if (TextUtils.isEmpty(email)) {
             signupBinding.signupEmail.error = "Required."
             valid = false
@@ -82,7 +82,7 @@ class Signup : AppCompatActivity() {
             signupBinding.signupEmail.error = null
         }
 
-        val password = signupBinding.signupPassword.text.toString()
+        val password = signupBinding.signupPassword.editText?.text.toString()
         if (TextUtils.isEmpty(password)) {
             signupBinding.signupPassword.error = "Required."
             valid = false
