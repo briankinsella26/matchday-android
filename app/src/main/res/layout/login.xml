@@ -24,7 +24,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -32,14 +32,25 @@
         android:layout_marginTop="152dp"
         android:layout_marginEnd="24dp"
         android:autofillHints="@string/prompt_email"
-        android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
+        app:boxBackgroundMode="outline"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusTopStart="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
+        app:boxCornerRadiusBottomEnd="16dp"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="20"
+            android:hint="@string/prompt_email" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -47,14 +58,28 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:autofillHints="@string/prompt_password"
-        android:hint="@string/prompt_password"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
+        app:endIconMode="password_toggle"
+        app:endIconDrawable="@drawable/custom_password_eye"
+        app:boxBackgroundMode="outline"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusTopStart="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
+        app:boxCornerRadiusBottomEnd="16dp"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
+        app:layout_constraintTop_toBottomOf="@+id/email">
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="20"
+        android:inputType="textPassword"
+        android:hint="@string/prompt_password" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/login"
