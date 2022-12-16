@@ -225,6 +225,7 @@ class MatchDetailFragment : Fragment() {
             detailViewModel.observableMatch.observe(viewLifecycleOwner, Observer {
                 var matchUpdate = detailViewModel.observableMatch.value!!
                 match.matchTitle = matchUpdate.homeTeam + "  vs  " + matchUpdate.awayTeam
+                match.result = "${matchUpdate.homeScore} - ${matchUpdate.awayScore}"
             })
             match.leagueGame = fragBinding.leagueGame.isChecked
             match.cupGame = fragBinding.cupGame.isChecked
