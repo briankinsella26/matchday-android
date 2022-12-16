@@ -62,7 +62,7 @@
                     android:layout_height="59dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    app:srcCompat="@drawable/cup" />
+                    android:background="@{match.leagueGame ? @drawable/league : @drawable/cup}"/>
 
             </LinearLayout>
 
