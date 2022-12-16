@@ -7,4 +7,11 @@
         android:orderInCategory="100"
         android:title="@string/menu_addMatch"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/toggleMatches"
+        android:title=""
+        app:actionLayout="@layout/toggle_button"
+        app:showAsAction="always" />
+
 </menu>
