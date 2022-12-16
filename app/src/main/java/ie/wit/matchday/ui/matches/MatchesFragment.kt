@@ -3,6 +3,7 @@ package ie.wit.matchday.ui.matches
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.switchmaterial.SwitchMaterial
 import ie.wit.matchday.R
 import ie.wit.matchday.adapters.MatchAdapter
 import ie.wit.matchday.adapters.MatchClickListener
@@ -94,6 +96,16 @@ class MatchesFragment : Fragment(), MatchClickListener {
 
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_matches, menu)
+
+                val item = menu.findItem(R.id.toggleMatches) as MenuItem
+                item.setActionView(R.layout.toggle_button)
+                val toggleMatches: SwitchMaterial = item.actionView!!.findViewById(R.id.match_type_switch)
+                toggleMatches.isChecked = false
+
+                toggleMatches.setOnCheckedChangeListener { _, isChecked ->
+                    if (!isChecked) matchesViewModel.load()
+                    else matchesViewModel.loadByMatchType("leagueGame")
+                }
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {

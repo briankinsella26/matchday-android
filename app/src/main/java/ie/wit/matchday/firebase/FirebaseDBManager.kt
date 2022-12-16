@@ -41,6 +41,37 @@ object FirebaseDBManager : MatchStore {
             })
     }
 
+    fun findByMatchType(userid: String, matchlist: MutableLiveData<List<MatchModel>>, matchType: String) {
+
+        Timber.i("Getting matches for user : ${userid}")
+        Timber.i("Getting matches: ${matchlist}")
+
+
+        database.child("user-matches").child(userid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase match error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val localList = ArrayList<MatchModel>()
+                    val children = snapshot.children
+                    children.forEach {
+                        val match = it.getValue(MatchModel::class.java)
+                        if(matchType == "leagueGame") {
+                            if(match!!.leagueGame) localList.add(match!!)
+                        } else {
+                            if(match!!.cupGame) localList.add(match!!)
+                        }
+                    }
+                    database.child("user-matches").child(userid)
+                        .removeEventListener(this)
+
+                    matchlist.value = localList
+                }
+            })
+    }
+
     override fun findById(userid: String, matchid: String, match: MutableLiveData<MatchModel>) {
 
         database.child("user-matches").child(userid)

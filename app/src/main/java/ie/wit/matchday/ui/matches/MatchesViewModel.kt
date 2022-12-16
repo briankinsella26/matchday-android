@@ -32,6 +32,16 @@ class MatchesViewModel : ViewModel() {
         }
     }
 
+    fun loadByMatchType(matchType: String) {
+        try {
+            FirebaseDBManager.findByMatchType(liveFirebaseUser.value?.uid!!, matchList, matchType)
+            Timber.i("Match List Load Success : ${matchList.value.toString()}")
+        }
+        catch (e: Exception) {
+            Timber.i("Match List Load Error : $e.message")
+        }
+    }
+
     fun delete(userid: String, id: String) {
         try {
             FirebaseDBManager.delete(userid,id)
