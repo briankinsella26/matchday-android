@@ -79,6 +79,8 @@
     </string>
     <string name="fragment_login_label">login_label</string>
     <string name="enable_dark_mode">Enable Dark Mode</string>
+    <string name="set_theme">Change Theme</string>
+    <string name="choose_theme_text">Choose Theme</string>
 
     <string-array name="teams_array">
         <item>Select team</item>
