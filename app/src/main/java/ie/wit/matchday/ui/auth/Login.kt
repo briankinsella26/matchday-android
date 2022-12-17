@@ -19,7 +19,6 @@ import ie.wit.matchday.databinding.LoginBinding
 import ie.wit.matchday.activities.Home
 import ie.wit.matchday.models.UserModel
 import timber.log.Timber
-import timber.log.Timber.i
 
 class Login : AppCompatActivity() {
 
