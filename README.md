@@ -39,7 +39,7 @@ Assets
   <a href="https://www.freepik.com/free-vector/gradient-match-day-label-set_28899251.htm#query=matchday&position=1&from_view=keyword">Image by pikisuperstar</a> on Freepik
 
 References
-- Circular spinner xml obtained from <a href="https://www.geeksforgeeks.org/material-design-components-progress-indicator-in-android/>progress indicator</a> on geeksforgeeks.org
+- Circular spinner xml obtained from <a href="https://www.geeksforgeeks.org/material-design-components-progress-indicator-in-android"/>progress indicator</a> on geeksforgeeks.org
 - Dark Mode code obtained from <a href="https://proandroiddev.com/dark-mode-on-android-app-with-kotlin-dc759fc5f0e1"/>Dark Mode</a> on proandroiddev.com
 - Code obtained from wit.ie
 
