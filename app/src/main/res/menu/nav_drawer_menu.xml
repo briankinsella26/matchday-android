@@ -16,7 +16,7 @@
             android:title="@string/menu_matches" />
         <item
             android:id="@+id/aboutFragment"
-            android:icon="@drawable/baseline_info_24"
+            android:icon="@drawable/info"
             android:title="@string/action_about" />
         <item android:title="User access">
             <menu>
