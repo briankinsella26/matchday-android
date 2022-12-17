@@ -2,13 +2,14 @@ package ie.wit.matchday.activities
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import android.widget.Switch
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.drawerlayout.widget.DrawerLayout
@@ -16,6 +17,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.*
 import androidx.navigation.ui.*
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.firebase.auth.FirebaseUser
 import ie.wit.matchday.R
 import ie.wit.matchday.databinding.HomeBinding
@@ -27,6 +29,7 @@ import ie.wit.matchday.utils.readImageUri
 import ie.wit.matchday.utils.showImagePicker
 import timber.log.Timber
 
+
 class Home : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
@@ -36,6 +39,9 @@ class Home : AppCompatActivity() {
     private lateinit var navHeaderBinding : NavHeaderBinding
     private lateinit var headerView : View
     private lateinit var intentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var switchExample: SwitchMaterial
+    private var isDarkModeEnabled: Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -50,12 +56,13 @@ class Home : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
 
         appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.addMatchFragment, R.id.matchesFragment, R.id.aboutFragment), drawerLayout)
+            R.id.addMatchFragment, R.id.matchesFragment, R.id.aboutFragment, R.id.toggleDarkMode), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         val navView = homeBinding.navView
         navView.setupWithNavController(navController)
         initNavHeader()
+        initDarkModeSwitch()
 
     }
 
@@ -130,7 +137,26 @@ class Home : AppCompatActivity() {
         navHeaderBinding.navHeaderImage.setOnClickListener {
             showImagePicker(intentLauncher)
         }
+
     }
+
+    private fun initDarkModeSwitch() {
+        var menuItem= homeBinding.navView.menu.findItem(R.id.toggleDarkMode)
+        val darkMode: SwitchMaterial = menuItem.actionView!!.findViewById(R.id.dark_mode_switch)
+        darkMode.isChecked = isDarkModeEnabled
+
+        darkMode.setOnCheckedChangeListener { _, isChecked ->
+            isDarkModeEnabled = isChecked
+            if (isDarkModeEnabled) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                darkMode.text = "Disable Dark Mode"
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                darkMode.text = "Enable Dark Mode"
+            }
+        }
+    }
+
 
     private fun registerImagePickerCallback() {
         intentLauncher =

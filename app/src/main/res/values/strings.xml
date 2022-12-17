@@ -78,6 +78,7 @@
         Lorem ipsum
     </string>
     <string name="fragment_login_label">login_label</string>
+    <string name="enable_dark_mode">Enable Dark Mode</string>
 
     <string-array name="teams_array">
         <item>Select team</item>
