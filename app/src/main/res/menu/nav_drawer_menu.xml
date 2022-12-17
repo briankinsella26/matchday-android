@@ -30,10 +30,10 @@
         <item android:title="Themes">
             <menu>
                 <item
-                    android:id="@+id/toggleDarkMode"
-                    android:title=""
-                    app:actionLayout="@layout/dark_mode_button"
-                    app:showAsAction="always" />
+                    android:id="@+id/change_theme_btn"
+                    android:title="@string/set_theme"
+                    android:onClick="themeOptions"
+                    android:icon="@drawable/dark_mode"/>
             </menu>
         </item>
     </group>
