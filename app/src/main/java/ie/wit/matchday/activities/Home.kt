@@ -2,13 +2,15 @@ package ie.wit.matchday.activities
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import android.widget.Switch
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.drawerlayout.widget.DrawerLayout
@@ -16,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.*
 import androidx.navigation.ui.*
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.firebase.auth.FirebaseUser
 import ie.wit.matchday.R
 import ie.wit.matchday.databinding.HomeBinding
@@ -23,9 +26,12 @@ import ie.wit.matchday.databinding.NavHeaderBinding
 import ie.wit.matchday.firebase.FirebaseImageManager
 import ie.wit.matchday.ui.auth.LoggedInViewModel
 import ie.wit.matchday.ui.auth.Login
+import ie.wit.matchday.utils.UserPreferences
 import ie.wit.matchday.utils.readImageUri
 import ie.wit.matchday.utils.showImagePicker
 import timber.log.Timber
+import java.util.prefs.Preferences
+
 
 class Home : AppCompatActivity() {
 
@@ -36,6 +42,7 @@ class Home : AppCompatActivity() {
     private lateinit var navHeaderBinding : NavHeaderBinding
     private lateinit var headerView : View
     private lateinit var intentLauncher : ActivityResultLauncher<Intent>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -50,12 +57,13 @@ class Home : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
 
         appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.addMatchFragment, R.id.matchesFragment, R.id.aboutFragment), drawerLayout)
+            R.id.addMatchFragment, R.id.matchesFragment, R.id.aboutFragment, R.id.change_theme_btn), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         val navView = homeBinding.navView
         navView.setupWithNavController(navController)
         initNavHeader()
+        checkTheme()
 
     }
 
@@ -123,6 +131,10 @@ class Home : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun themeOptions(item: MenuItem) {
+        chooseThemeDialog()
+    }
+
     private fun initNavHeader() {
         headerView = homeBinding.navView.getHeaderView(0)
         navHeaderBinding = NavHeaderBinding.bind(headerView)
@@ -130,7 +142,26 @@ class Home : AppCompatActivity() {
         navHeaderBinding.navHeaderImage.setOnClickListener {
             showImagePicker(intentLauncher)
         }
+
     }
+
+//    private fun initDarkModeSwitch() {
+//        var menuItem= homeBinding.navView.menu.findItem(R.id.change_theme_btn)
+//        val darkMode: SwitchMaterial = menuItem.actionView!!.findViewById(R.id.dark_mode_switch)
+//        darkMode.isChecked = isDarkModeEnabled
+//
+//        darkMode.setOnCheckedChangeListener { _, isChecked ->
+//            isDarkModeEnabled = isChecked
+//            if (isDarkModeEnabled) {
+//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//                darkMode.text = "Disable Dark Mode"
+//            } else {
+//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//                darkMode.text = "Enable Dark Mode"
+//            }
+//        }
+//    }
+
 
     private fun registerImagePickerCallback() {
         intentLauncher =
@@ -149,5 +180,60 @@ class Home : AppCompatActivity() {
                     RESULT_CANCELED -> { } else -> { }
                 }
             }
+    }
+
+    private fun chooseThemeDialog() {
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.choose_theme_text))
+        val styles = arrayOf("Light","Dark","System default")
+        val checkedItem = UserPreferences(this).darkMode
+
+        builder.setSingleChoiceItems(styles, checkedItem) { dialog, which ->
+
+            when (which) {
+                0 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    UserPreferences(this).darkMode = 0
+                    delegate.applyDayNight()
+                    dialog.dismiss()
+                }
+                1 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    UserPreferences(this).darkMode = 1
+                    delegate.applyDayNight()
+
+                    dialog.dismiss()
+                }
+                2 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                    UserPreferences(this).darkMode = 2
+                    delegate.applyDayNight()
+                    dialog.dismiss()
+                }
+
+            }
+
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun checkTheme() {
+        when (UserPreferences(this).darkMode) {
+            0 -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                delegate.applyDayNight()
+            }
+            1 -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                delegate.applyDayNight()
+            }
+            2 -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                delegate.applyDayNight()
+            }
+        }
     }
 }
