@@ -3,7 +3,6 @@ package ie.wit.matchday.ui.matches
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment

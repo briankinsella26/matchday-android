@@ -7,7 +7,6 @@ import timber.log.Timber.i
 
 class MainApp: Application() {
 
-    lateinit var users: UserStore
     lateinit var loggedInUser: UserModel
 
     override fun onCreate() {

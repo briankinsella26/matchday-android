@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Switch
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -18,7 +17,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.*
 import androidx.navigation.ui.*
-import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.firebase.auth.FirebaseUser
 import ie.wit.matchday.R
 import ie.wit.matchday.databinding.HomeBinding
@@ -30,7 +28,6 @@ import ie.wit.matchday.utils.UserPreferences
 import ie.wit.matchday.utils.readImageUri
 import ie.wit.matchday.utils.showImagePicker
 import timber.log.Timber
-import java.util.prefs.Preferences
 
 
 class Home : AppCompatActivity() {
@@ -144,24 +141,6 @@ class Home : AppCompatActivity() {
         }
 
     }
-
-//    private fun initDarkModeSwitch() {
-//        var menuItem= homeBinding.navView.menu.findItem(R.id.change_theme_btn)
-//        val darkMode: SwitchMaterial = menuItem.actionView!!.findViewById(R.id.dark_mode_switch)
-//        darkMode.isChecked = isDarkModeEnabled
-//
-//        darkMode.setOnCheckedChangeListener { _, isChecked ->
-//            isDarkModeEnabled = isChecked
-//            if (isDarkModeEnabled) {
-//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-//                darkMode.text = "Disable Dark Mode"
-//            } else {
-//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//                darkMode.text = "Enable Dark Mode"
-//            }
-//        }
-//    }
-
 
     private fun registerImagePickerCallback() {
         intentLauncher =
