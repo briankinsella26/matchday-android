@@ -24,10 +24,10 @@ fun createLoader(activity: FragmentActivity) : AlertDialog {
 }
 
 fun showLoader(loader: AlertDialog, message: String) {
-    if (!loader.isShowing) {
-        loader.setTitle(message)
-        loader.show()
-    }
+//    if (!loader.isShowing) {
+//        loader.setTitle(message)
+//        loader.show()
+//    }
 }
 
 fun hideLoader(loader: AlertDialog) {
