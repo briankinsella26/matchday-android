@@ -52,7 +52,7 @@ Users interacting with the Matchday app will feel connected, and trust that they
 convenience through simplicity, while providing customisation options when required.
 
 ## UML
-![/assets/uml.png]
+![UML](/assets/uml.png)
 
 ## Notes
 The application was challenging. As the initial version employed activities for every view, and with no specific design pattern, the change to MVVVM was a significant refactor.
